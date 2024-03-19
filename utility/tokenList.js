@@ -1,0 +1,9 @@
+export const ETH = "Ethereum";
+export const COIN_1 = "USDT";
+export const COIN_2 = "WETH";
+export const COIN_3 = "Bitcoin";
+export const COIN_4 = "TEST";
+export const COIN_5 = "NEXT";
+export const COIN_6 = "";
+export const COIN_7 = "";
+export const DEFAULT_VALUE = "";
