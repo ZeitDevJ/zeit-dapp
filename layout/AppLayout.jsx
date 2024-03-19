@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { ReactSVG } from "react-svg";
 
 const AppLayout = () => {
   const { pathname, asPath, events } = useRouter();
@@ -10,10 +11,10 @@ const AppLayout = () => {
     toggleNavState(!navState);
   };
   const navLinks = [
-    // { key: 1, title: "Trade", path: "/app/trade" },
-    { key: 2, title: "Swap", path: "/app/swap" },
-    // { key: 3, title: "Earn", path: "/app/earn" },
-    // { key: 4, title: "Invites", path: "/app/invite" },
+    { key: 1, title: "Trade", path: "/trade" },
+    { key: 2, title: "Swap", path: "/" },
+    { key: 3, title: "Earn", path: "/earn" },
+    { key: 4, title: "Invites", path: "/invite" },
   ];
   const links = navLinks.map(({ path, key, title }) => (
     <Link key={key} href={path}>
@@ -46,12 +47,7 @@ const AppLayout = () => {
       >
         <div className="">
           <Link href="/">
-            <Image
-              src="/images/Zeit-Logo.svg"
-              alt="logo"
-              height={50}
-              width={50}
-            />
+            <ReactSVG src="/images/swap/zeit-logo-full.svg" />
           </Link>
         </div>
         <nav
@@ -63,7 +59,19 @@ const AppLayout = () => {
         >
           <ul className="flex mx-auto w-fit justify-between">{links}</ul>
         </nav>
-        <div className=""></div>
+        <div className="flex items-center gap-[27px]">
+          <button className="px-[8px] flex items-center py-[10px] border gap-[10px] border-[#CDD5DF] rounded-[8px]">
+            <ReactSVG src="/images/nav/warning.svg" />
+            <ReactSVG src="/images/nav/chevron.svg" />
+          </button>
+          <button className="p-[12px] flex items-center border gap-[10px] border-[#CDD5DF] rounded-[8px]">
+            <span className="tsmmed font-generic">36.37ETH</span>
+            <span className="flex items-center py-[6px] px-[12px] gap-[8px] text-[#333333] bg-[#EEF2F6] rounded-[6px]">
+              <span className="tsmmed">0xjus...u2</span>
+              <ReactSVG src="/images/nav/chevron.svg" />
+            </span>
+          </button>
+        </div>
         <button type="button" onClick={toggleNav} className="z-[2] md:hidden">
           <svg
             xmlns="http://www.w3.org/2000/svg"

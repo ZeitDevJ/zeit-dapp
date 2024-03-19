@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <>
       <AppLayout />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
