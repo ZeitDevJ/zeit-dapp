@@ -3,10 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
+import WalletConnect from "@/reusable components/modals/wallet-connect";
+import BasicDropDown from "@/reusable components/dropdowns/basic-dropdown";
 
 const AppLayout = () => {
   const { pathname, asPath, events } = useRouter();
   const [navState, toggleNavState] = useState(false);
+  const [popUp, setPopUp] = useState(false);
   const toggleNav = () => {
     toggleNavState(!navState);
   };
@@ -43,11 +46,11 @@ const AppLayout = () => {
   return (
     <>
       <header
-        className={`fixed flex items-center justify-between bg-transparent backdrop-blur-sm w-full py-3 z-[3] px-[1rem] md:px-[2rem]`}
+        className={`fixed flex items-center justify-between bg-transparent backdrop-blur-sm w-full py-1 z-[3] px-[1rem] md:px-[2rem]`}
       >
         <div className="">
           <Link href="/">
-            <ReactSVG src="/images/swap/zeit-logo-full.svg" />
+            <ReactSVG src="/images/main/zeit-logo-full.svg" />
           </Link>
         </div>
         <nav
@@ -60,16 +63,27 @@ const AppLayout = () => {
           <ul className="flex mx-auto w-fit justify-between">{links}</ul>
         </nav>
         <div className="flex items-center gap-[27px]">
+          {/* conditionally render */}
           <button className="px-[8px] flex items-center py-[10px] border gap-[10px] border-[#CDD5DF] rounded-[8px]">
             <ReactSVG src="/images/nav/warning.svg" />
             <ReactSVG src="/images/nav/chevron.svg" />
           </button>
-          <button className="p-[12px] flex items-center border gap-[10px] border-[#CDD5DF] rounded-[8px]">
+          <div className="p-[12px] relative flex items-center border gap-[10px] border-[#CDD5DF] rounded-[8px]">
             <span className="tsmmed font-generic">36.37ETH</span>
-            <span className="flex items-center py-[6px] px-[12px] gap-[8px] text-[#333333] bg-[#EEF2F6] rounded-[6px]">
-              <span className="tsmmed">0xjus...u2</span>
+            <button
+              onClick={() => setPopUp(true)}
+              className="flex items-center py-[6px] px-[12px] gap-[8px] text-[#333333] bg-[#EEF2F6] rounded-[6px]"
+            >
+              <span className="tsmmed font-generic">0xjus...u2</span>
               <ReactSVG src="/images/nav/chevron.svg" />
-            </span>
+            </button>
+            <BasicDropDown />
+          </div>
+          <button
+            onClick={() => setPopUp(true)}
+            className="px-[30px] py-[10px] tmdsbold font-generic border gap-[10px] border-[#CDD5DF] rounded-[8px]"
+          >
+            Connect Wallet
           </button>
         </div>
         <button type="button" onClick={toggleNav} className="z-[2] md:hidden">
@@ -131,6 +145,7 @@ const AppLayout = () => {
           </svg>
         </button>
       </header>
+      <WalletConnect popUp={popUp} setPopUp={setPopUp} />
     </>
   );
 };

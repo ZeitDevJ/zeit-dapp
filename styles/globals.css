@@ -23,6 +23,12 @@
   color: #364152 !important;
   font-weight: 700;
 }
+.hero {
+  background-image: url(/images/main/hero.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 /* basic styles */
 
@@ -234,9 +240,6 @@
 .font-generic {
   font-family: "Inter";
 }
-.display-spacing {
-  letter-spacing: "-2%";
-}
 .xxlreg,
 .xlreg,
 .lgreg,
@@ -304,78 +307,78 @@
 .xxlbold,
 .xxlblack,
 .mdlblack {
-  font-size: "72px";
-  line-height: "90px";
+  font-size: 72px;
+  line-height: 90px;
 }
 .xlreg,
 .xlmed,
 .xlsbold,
 .xlbold,
 .xlblack {
-  font-size: "60px";
-  line-height: "72px";
+  font-size: 60px;
+  line-height: 72px;
 }
 .lgreg,
 .lgmed,
 .lgsbold,
 .lgbold,
 .lgblack {
-  font-size: "48px";
-  line-height: "60px";
+  font-size: 48px;
+  line-height: 60px;
 }
 .mdreg,
 .mdmed,
 .mdsbold,
 .mdbold,
 .mdblack {
-  font-size: "36px";
-  line-height: "44px";
+  font-size: 36px;
+  line-height: 44px;
 }
 .smreg,
 .smmed,
 .smsbold,
 .smbold,
 .smblack {
-  font-size: "24px";
-  line-height: "32px";
+  font-size: 24px;
+  line-height: 32px;
 }
 .txlreg,
 .txlmed,
 .txlsbold,
 .txlbold,
 .txlblack {
-  font-size: "20px";
-  line-height: "30px";
+  font-size: 20px;
+  line-height: 30px;
 }
 .tlgreg,
 .tlgmed,
 .tlgsbold,
 .tlgbold,
 .tlgblack {
-  font-size: "18px";
-  line-height: "28px";
+  font-size: 18px;
+  line-height: 28px;
 }
 .tmdreg,
 .tmdmed,
 .tmdsbold,
 .tmdbold,
 .tmdblack {
-  font-size: "16px";
-  line-height: "24px";
+  font-size: 16px;
+  line-height: 24px;
 }
 .tsmreg,
 .tsmmed,
 .tsmsbold,
 .tsmbold,
 .tsmblack {
-  font-size: "14px";
-  line-height: "20px";
+  font-size: 14px;
+  line-height: 20px;
 }
 .tsxreg,
 .tsxmed,
 .tsxsbold,
 .tsxbold,
 .tsxblack {
-  font-size: "12px";
-  line-height: "18px";
+  font-size: 12px;
+  line-height: 18px;
 }
