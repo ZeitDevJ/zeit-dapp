@@ -9,12 +9,14 @@ const ModalSkeleton = memo(({ children, popUp }) => {
         mode ? "bg-[#00000029]" : "backdrop-blur-[9px] bg-[#00000075]"
       } transition-[.5s] z-[50] w-full top-0 bottom-0 bg-[#00000029]`}
     >
-      <div
-        className={`fixed p-[16px] w-[94%] left-[3%] md:w-[25%] md:left-[37.5%] rounded-[16px] ${
-          mode ? "hero" : "bg-[#1E1E1E]"
-        } h-fit top-[15vh]`}
-      >
-        {children}
+      <div className="fixed w-full top-[15vh] h-fit">
+        <div
+          className={` p-[16px] w-[94%] mx-auto md:w-[25%] min-w-fit rounded-[16px] ${
+            mode ? "hero" : "bg-[#1E1E1E]"
+          }  `}
+        >
+          {children}
+        </div>
       </div>
     </section>
   );

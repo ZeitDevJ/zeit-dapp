@@ -2,10 +2,10 @@ import { memo } from "react";
 import { ReactSVG } from "react-svg";
 import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
+import metamaskConnect from "@/utility functions/wallet connect/metamaskConnect";
 
 const WalletConnect = memo(({ popUp, setPopUp }) => {
   const { mode } = useData();
-
   return (
     <ModalSkeleton popUp={popUp}>
       <div className="flex mb-[32px] text-black w-full justify-between">
@@ -24,7 +24,10 @@ const WalletConnect = memo(({ popUp, setPopUp }) => {
         Choose how you want to connect. There are several wallet providers.
       </p>
       <div className="flex flex-col mb-[32px] gap-[16px]">
-        <button className="flex items-center justify-between tetiary-btn rounded-[8px] px-[12px] py-[14px]">
+        <button
+          onClick={metamaskConnect}
+          className="flex items-center justify-between tetiary-btn rounded-[8px] px-[12px] py-[14px]"
+        >
           <span className="tsmreg font-generic">Metamask</span>
           <ReactSVG src="/images/modal/metamask.svg" />
         </button>

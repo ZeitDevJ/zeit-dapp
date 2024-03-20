@@ -3,9 +3,9 @@ import HeadComp from "@/layout/HeadComp";
 import { useData } from "@/context/DataContext";
 import ChartComponent from "@/reusable components/swap components/chart-component";
 import SwapBody from "@/reusable components/swap components/swap-body";
-import TokenSelect from "@/reusable components/modals/token-select";
+import TokenSelect from "@/reusable components/widgets/modals/token-select";
 import { ReactSVG } from "react-svg";
-import Settings from "@/reusable components/modals/settings";
+import Settings from "@/reusable components/widgets/modals/settings";
 
 const Swap = () => {
   const { mode } = useData();
@@ -38,7 +38,7 @@ const Swap = () => {
       >
         <section className="flex items-center md:w-[90%] gap-[32px] mx-auto">
           <ChartComponent chartMod={chartMod} symbol={symbol} />
-          <div className="md:max-w-[584px] w-[95%] mx-auto bg-white rounded-[16px] sw-bxshdw md:w-[35%] p-[16px]">
+          <div className="md:max-w-[584px] min-w-fit w-[95%] mx-auto bg-white rounded-[16px] sw-bxshdw md:w-[35%] p-[16px]">
             <h1 className="text-[#364152] text-[24px] font-Inter font-[600]">
               Swap
             </h1>

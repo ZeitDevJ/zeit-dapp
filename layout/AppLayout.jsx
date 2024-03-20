@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
-import WalletConnect from "@/reusable components/modals/wallet-connect";
-import BasicDropDown from "@/reusable components/dropdowns/basic-dropdown";
+import WalletConnect from "@/reusable components/widgets/modals/wallet-connect";
+import BasicDropDown from "@/reusable components/widgets/dropdowns/basic-dropdown";
 
 const AppLayout = () => {
   const { pathname, asPath, events } = useRouter();

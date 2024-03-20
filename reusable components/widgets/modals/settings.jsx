@@ -2,6 +2,7 @@ import { memo } from "react";
 import ModalSkeleton from "./modal-skeleton";
 import { useData } from "@/context/DataContext";
 import { ReactSVG } from "react-svg";
+import BasicToolTip from "../tooltips/basic-tooltip";
 
 const Settings = memo(({ popUp, setPopUp }) => {
   const { mode } = useData();
@@ -21,7 +22,10 @@ const Settings = memo(({ popUp, setPopUp }) => {
       </div>
       <div className="flex items-center mb-[16px] gap-[8px]">
         <p className="tmdmed font-generic">Default Transaction Speed</p>
-        <ReactSVG src="images/swap/help.svg" />
+        <button className="tool-tip">
+          <ReactSVG src="images/swap/help.svg" />
+          <BasicToolTip message="Content here" />
+        </button>
       </div>
       <div className="flex gap-[8px]">
         <button
@@ -42,7 +46,10 @@ const Settings = memo(({ popUp, setPopUp }) => {
       </div>
       <div className="flex items-center my-[16px] gap-[8px]">
         <p className="tmdmed font-generic">Slippage Tolerance</p>
-        <ReactSVG src="images/swap/help.svg" />
+        <button className="tool-tip">
+          <ReactSVG src="images/swap/help.svg" />
+          <BasicToolTip message="You ain't got no slippage!" />
+        </button>
       </div>
       <div className="flex items-center gap-[8px]">
         <button
@@ -59,7 +66,8 @@ const Settings = memo(({ popUp, setPopUp }) => {
         </button>
         <input
           placeholder="Slippage"
-          className="px-[16px] outline-none w-full font-generic tsmmed py-[8px] bg-transparent rounded-[24px] border "
+          type="number"
+          className="px-[16px] outline-none w-full font-generic max-w-[91px] tsmmed py-[8px] bg-transparent rounded-[24px] border "
         />
         <span className="text-[#5BC0BE] font-generic tlgsbold">%</span>
       </div>
