@@ -1,3 +1,5 @@
+import { getBalance } from "./get-credentials";
+
 const getCurrentWalletConnected = async () => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
     try {
@@ -31,11 +33,21 @@ const getCurrentWalletConnected = async () => {
   }
 };
 
-const checkSwitchAccounts = () => {
+const checkSwitchAccounts = async () => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
     window.ethereum.on("accountsChanged", (accounts) => {
       // notify, accounts ChannelMergerNode, and if there's need, ask them sign in again
-      console.log(accounts[0]);
+      if (accounts.length > 0) {
+        // then there is an account yay!
+        const account = accounts[0];
+        console.log(account);
+
+        // then fetch balance
+        getBalance(account);
+      } else {
+        // we rest, dont do much headers, it's a side effect, don;t disturb the user
+        return;
+      }
     });
   }
 };
