@@ -5,6 +5,7 @@ import ChartComponent from "@/reusable components/swap components/chart-componen
 import SwapBody from "@/reusable components/swap components/swap-body";
 import TokenSelect from "@/reusable components/modals/token-select";
 import { ReactSVG } from "react-svg";
+import Settings from "@/reusable components/modals/settings";
 
 const Swap = () => {
   const { mode } = useData();
@@ -24,6 +25,7 @@ const Swap = () => {
   });
   const [rotateStat, setStat] = useState(false);
   const [popUp, setModal] = useState(false);
+  const [settingsPopup, setPopUp] = useState(false);
   const [order, setOrder] = useState(null);
 
   return (
@@ -81,7 +83,7 @@ const Swap = () => {
                     />
                   </svg>
                 </button>
-                <button className="">
+                <button onClick={() => setPopUp(true)} className="">
                   <ReactSVG src="/images/swap/settings.svg" />
                 </button>
               </span>
@@ -121,6 +123,7 @@ const Swap = () => {
         order={order}
         setSymbol={setSymbol}
       />
+      <Settings popUp={settingsPopup} setPopUp={setPopUp} />
     </>
   );
 };
