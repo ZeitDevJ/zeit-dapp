@@ -19,6 +19,15 @@
 .iekbcc0 {
   font-family: "Comfortaa" !important;
 }
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .activeLink {
   color: #364152 !important;
   font-weight: 700;

@@ -1,6 +1,7 @@
 import { useData } from "@/context/DataContext";
+import { memo } from "react";
 
-const ModalSkeleton = ({ children, popUp }) => {
+const ModalSkeleton = memo(({ children, popUp }) => {
   const { mode } = useData();
   return (
     <section
@@ -17,6 +18,6 @@ const ModalSkeleton = ({ children, popUp }) => {
       </div>
     </section>
   );
-};
+});
 
 export default ModalSkeleton;

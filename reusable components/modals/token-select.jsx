@@ -1,11 +1,58 @@
-import { useState } from "react";
 import { ReactSVG } from "react-svg";
 import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
 
-const TokenSelect = ({ selectToken, popUp, setPopUp }) => {
+const TokenSelect = ({
+  popUp,
+  setModal,
+  setFirstToken,
+  setSecondToken,
+  firstToken,
+  secondToken,
+}) => {
   const { mode } = useData();
-  const removeModal = () => setPopUp(false);
+
+  const selectToken = (abbrev, cAddress) => {
+    if (abbrev == secondToken.name && order == "from") {
+      setSecondToken({
+        addy: firstToken.token,
+        name: firstToken.name,
+      });
+      setFirstToken({
+        addy: cAddress,
+        name: abbrev,
+      });
+      setSymbol(abbrev + firstToken.name);
+      setModal(false);
+      return;
+    } else if (abbrev == firstToken.name && order == "to") {
+      setFirstToken({
+        addy: secondToken.token,
+        name: secondToken.name,
+      });
+      setSecondToken({
+        addy: cAddress,
+        name: abbrev,
+      });
+      setSymbol(secondToken.name + abbrev);
+      setModal(false);
+      return;
+    }
+    if (order == "from") {
+      setFirstToken({
+        addy: cAddress,
+        name: abbrev,
+      });
+      setSymbol(abbrev + secondToken.name);
+    } else {
+      setSecondToken({
+        addy: cAddress,
+        name: abbrev,
+      });
+      setSymbol(firstToken.name + abbrev);
+    }
+    setModal(false);
+  };
   return (
     <ModalSkeleton popUp={popUp}>
       <div className="flex mb-[8px] w-full justify-between">
@@ -16,7 +63,7 @@ const TokenSelect = ({ selectToken, popUp, setPopUp }) => {
         >
           Select Token
         </p>
-        <button onClick={removeModal}>
+        <button onClick={() => setModal((prev) => !prev)}>
           <ReactSVG src="/images/swap/close.svg" />
         </button>
       </div>

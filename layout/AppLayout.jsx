@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
 import WalletConnect from "@/reusable components/modals/wallet-connect";
@@ -10,6 +9,7 @@ const AppLayout = () => {
   const { pathname, asPath, events } = useRouter();
   const [navState, toggleNavState] = useState(false);
   const [popUp, setPopUp] = useState(false);
+  const [isOpen, setDropDownOpen] = useState(false);
   const toggleNav = () => {
     toggleNavState(!navState);
   };
@@ -71,13 +71,13 @@ const AppLayout = () => {
           <div className="p-[12px] relative flex items-center border gap-[10px] border-[#CDD5DF] rounded-[8px]">
             <span className="tsmmed font-generic">36.37ETH</span>
             <button
-              onClick={() => setPopUp(true)}
+              onClick={() => setDropDownOpen((prevState) => !prevState)}
               className="flex items-center py-[6px] px-[12px] gap-[8px] text-[#333333] bg-[#EEF2F6] rounded-[6px]"
             >
               <span className="tsmmed font-generic">0xjus...u2</span>
               <ReactSVG src="/images/nav/chevron.svg" />
             </button>
-            <BasicDropDown />
+            <BasicDropDown isOpen={isOpen} />
           </div>
           <button
             onClick={() => setPopUp(true)}
