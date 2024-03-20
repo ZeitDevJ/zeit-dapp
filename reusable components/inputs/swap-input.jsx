@@ -49,7 +49,7 @@ const Input = memo(
               name={inputName}
               value={tokenAmount}
               onChange={changeAmount}
-              className="text-[#9AA4B2] h-[30px] font-Inter text-[20px] text-right min-w-[57px] bg-transparent outline-none font-[500]"
+              className="text-[#9AA4B2] h-[30px] font-Inter text-[20px] text-right w-full bg-transparent outline-none font-[500]"
               placeholder="0.000"
             />
             <p className="text-[#9AA4B2] text-[14px] font-[400] font-Inter text-right">

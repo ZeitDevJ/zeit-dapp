@@ -38,6 +38,10 @@ input::-webkit-inner-spin-button {
   background-repeat: no-repeat;
   background-size: cover;
 }
+.sw-bxshdw {
+  box-shadow: 11px 8px 21px 11px rgba(91, 192, 190, 0.06),
+    0px 0px 11px 0px rgba(0, 0, 0, 0.04), 0px 4px 42px 0px rgba(0, 0, 0, 0.03);
+}
 
 /* basic styles */
 

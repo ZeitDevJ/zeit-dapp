@@ -4,6 +4,7 @@ import { useData } from "@/context/DataContext";
 import ChartComponent from "@/reusable components/swap components/chart-component";
 import SwapBody from "@/reusable components/swap components/swap-body";
 import TokenSelect from "@/reusable components/modals/token-select";
+import { ReactSVG } from "react-svg";
 
 const Swap = () => {
   const { mode } = useData();
@@ -18,8 +19,8 @@ const Swap = () => {
     addy: "0xC067882ff7528E878fbC85f876a1D4e1964d0dBa",
   });
   const [tokenAmount, setTokenAmount] = useState({
-    firstTokenAmount: null,
-    secondTokenAmount: null,
+    firstTokenAmount: "",
+    secondTokenAmount: "",
   });
   const [rotateStat, setStat] = useState(false);
   const [popUp, setModal] = useState(false);
@@ -59,30 +60,30 @@ const Swap = () => {
                   >
                     <path
                       d="M6 20V14"
-                      stroke={chartMod ? "#5BC0BE" : "#000"}
+                      stroke={chartMod ? "#5BC0BE" : "#697586"}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                     <path
                       d="M18 20V10"
-                      stroke={chartMod ? "#5BC0BE" : "#000"}
+                      stroke={chartMod ? "#5BC0BE" : "#697586"}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                     <path
                       d="M12 20V4"
-                      stroke={chartMod ? "#5BC0BE" : "#000"}
+                      stroke={chartMod ? "#5BC0BE" : "#697586"}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                   </svg>
                 </button>
-                {/* <button className="">
-                  <Image width={23} height={1} src="/images/fi_settings.svg" alt="settings" />
-                </button> */}
+                <button className="">
+                  <ReactSVG src="/images/swap/settings.svg" />
+                </button>
               </span>
             </div>
             <SwapBody
@@ -96,6 +97,7 @@ const Swap = () => {
               setSymbol={setSymbol}
               setModal={setModal}
               setOrder={setOrder}
+              rotateStat={rotateStat}
             />
             <div className="my-[16px] font-Inter text-[14px] font-[500] text-[#202939] flex justify-between items-center">
               <span className="">Slippage</span>
@@ -116,6 +118,8 @@ const Swap = () => {
         setModal={setModal}
         secondToken={secondToken}
         popUp={popUp}
+        order={order}
+        setSymbol={setSymbol}
       />
     </>
   );

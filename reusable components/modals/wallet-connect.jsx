@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { memo } from "react";
 import { ReactSVG } from "react-svg";
 import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
 
-const WalletConnect = ({ popUp, setPopUp }) => {
+const WalletConnect = memo(({ popUp, setPopUp }) => {
   const { mode } = useData();
 
   return (
@@ -43,6 +43,6 @@ const WalletConnect = ({ popUp, setPopUp }) => {
       </p>
     </ModalSkeleton>
   );
-};
+});
 
 export default WalletConnect;
