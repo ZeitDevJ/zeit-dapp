@@ -1,8 +1,7 @@
 const disconnectWallet = () => {
   if (typeof window !== "undefined" && window.ethereum) {
     try {
-      window.ethereum.chainId = null;
-      window.ethereum.selectedAddress = null;
+      console.log("cheese");
     } catch (error) {
       console.error("Error disconnecting wallet:", error.message);
     }

@@ -68,6 +68,30 @@ input::-webkit-inner-spin-button {
   visibility: visible;
   opacity: 1;
 }
+::-webkit-scrollbar {
+  width: 0.4vw !important;
+  height: 0.4vw !important;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #4a90e212, #5bc0becc);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track {
+  background: linear-gradient(to bottom, #f0f7ff34, #dfeeff45);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  background: linear-gradient(to right, #4a90e212, #5bc0becc);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track:horizontal {
+  background: linear-gradient(to right, #f0f7ff34, #dfeeff45);
+  border-radius: 6px;
+}
+.move-margin {
+  margin-right: 50px !important;
+}
+
 /* basic styles */
 
 /* Buttons  */
