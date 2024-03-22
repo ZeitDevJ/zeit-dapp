@@ -1,12 +1,14 @@
 import { memo, useEffect } from "react";
 import { ReactSVG } from "react-svg";
 import disconnectWallet from "@/utility functions/wallet connect/disconnect";
+import toastInvoker from "@/utility functions/miscellanous/toast-invoker";
 
 const BasicDropDown = memo(
   ({ isOpen, address, setDropDownOpen, reference }) => {
     const copyAddress = () => {
       if (address) {
         navigator.clipboard.writeText(address);
+        toastInvoker("success", "Successful!", "Copied to clipboard!");
       } else {
         // hndle notification saying adderess empty
       }

@@ -1,14 +1,14 @@
 import { ReactSVG } from "react-svg";
 
-const ToastDanger = ({ toast, t }) => {
+const ToastDanger = ({ toast, t, title, content }) => {
   return (
     <div className="bg-[#fff] w-[415px] rounded-[8px] overflow-hidden shadow-lg flex items-center h-[72px]">
       <figure className="w-[72px] text-[#F04438] bg-[url(/images/widgets/danger-ring.jpg)] bg-center h-full flex justify-center items-center">
         <ReactSVG src="/images/widgets/info-bell.svg" />
       </figure>
       <div className="flex-1 pl-[8px]">
-        <p className="tmdmed text-black font-generic">Successfully Swapped</p>
-        <span className="tsmreg text-[#697586] font-generic">Sub text</span>
+        <p className="tmdmed text-black font-generic">{title}</p>
+        <span className="tsmreg text-[#697586] font-generic">{content}</span>
       </div>
       <div className="w-[100px] h-full">
         <button

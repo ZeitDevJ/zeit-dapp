@@ -11,11 +11,7 @@ export default function App({ Component, pageProps }) {
           <Component {...pageProps} />
         </Layout>
       </DataGet>
-      <Toaster
-        className="move-margin"
-        style={{ marginTop: "40px" }}
-        position="top-right"
-      />
+      <Toaster className="move-margin" position="bottom-right" />
     </>
   );
 }
