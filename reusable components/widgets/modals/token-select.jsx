@@ -58,7 +58,7 @@ const TokenSelect = memo(
       setModal(false);
     };
     return (
-      <ModalSkeleton popUp={popUp}>
+      <ModalSkeleton width="max-w-[356px]" popUp={popUp}>
         <div className="flex mb-[8px] w-full justify-between">
           <p
             className={` font-generic smsbold ${
