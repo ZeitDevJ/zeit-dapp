@@ -1,6 +1,7 @@
 import { getBalance, getCurrentChainId } from "./get-credentials";
 import shortenAdress from "../miscellanous/shorten-address";
 import { REQUIRED_CHAIN_ID } from "@/data/constants";
+import toastInvoker from "../miscellanous/toast-invoker";
 
 const getCurrentWalletConnected = async (
   appData,
@@ -24,11 +25,14 @@ const getCurrentWalletConnected = async (
           shortenedWAddress: sAddy,
         });
         setIsConnected(true);
+        toastInvoker("success", "Success!", "Wallet connected successfully!");
+
         const chainId = await getCurrentChainId();
-        console.log(chainId);
         if (chainId !== REQUIRED_CHAIN_ID) {
-          console.log(
-            `Wrong network detected. Please switch to the Polygon network from chain ${chainId}`
+          toastInvoker(
+            "warning",
+            "Wrong Network!",
+            "You're on a wrong chain, change to continue!"
           );
         } else {
           const fetchedBal = await getBalance(account);
@@ -41,52 +45,93 @@ const getCurrentWalletConnected = async (
           setIsOnChain(true);
         }
       } else {
-        // we rest, dont do much headers, it's a side effect, don;t disturb the user
         return;
       }
     } catch (error) {
-      // just say network error here like oncuechange, so they know what's going on!
+      toastInvoker(
+        "danger",
+        "Network connection error!",
+        "Check your network, try reloading thi page, this might help!"
+      );
     }
   }
 };
 
-const checkSwitchAccounts = async () => {
+const checkSwitchAccounts = async (
+  appData,
+  setAppData,
+  balance,
+  setBalance
+) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
-    window.ethereum.on("accountsChanged", (accounts) => {
-      // notify, accounts ChannelMergerNode, and if there's need, ask them sign in again
+    window.ethereum.on("accountsChanged", async (accounts) => {
       if (accounts.length > 0) {
-        // then there is an account yay!
+        toastInvoker(
+          "info",
+          "Account changed!",
+          "Refreshing wallet details..."
+        );
         const account = accounts[0];
-        console.log(account);
+        const sAddy = shortenAdress(account);
+        setAppData({
+          ...appData,
+          walletAddress: account,
+          shortenedWAddress: sAddy,
+        });
 
-        // then fetch balance
-        getBalance(account);
+        const fetchedBal = await getBalance(account);
+        const roundedUpBal = fetchedBal.toFixed(2);
+        setBalance({
+          ...balance,
+          fullBalance: balance,
+          roundedBalance: roundedUpBal,
+        });
       } else {
         console.log(accounts[0]);
-        // detect when account has been disconnected here
-        // we rest, dont do much headers, it's a side effect, don;t disturb the user
+        toastInvoker(
+          "warning",
+          "Wallet disconnected!",
+          "Wallet disconnected!, connect to use this app!"
+        );
         return;
       }
     });
   }
 };
-const checkChangeNetwork = async (setIsOnChain) => {
+const checkChangeNetwork = async (
+  setIsOnChain,
+  balance,
+  setBalance,
+  address
+) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
     window.ethereum.on("chainChanged", async (chainId) => {
       if (chainId !== REQUIRED_CHAIN_ID) {
-        console.log(
-          `Wrong network detected. Please switch to the Polygon network from chain ${chainId}`
+        toastInvoker(
+          "warning",
+          "Wrong Network!",
+          "You're on a wrong chain, change to continue!"
         );
         setIsOnChain(false);
+        if (balance.roundedBalance !== null && address !== null) {
+          const fetchedBal = await getBalance(address);
+          const roundedUpBal = fetchedBal.toFixed(2);
+          setBalance({
+            ...balance,
+            roundedBalance: roundedUpBal,
+          });
+        }
       } else {
         setIsOnChain(true);
+        if (balance.roundedBalance === null && address !== null) {
+          setBalance({
+            ...balance,
+            roundedBalance: null,
+          });
+        }
       }
-      // You might want to handle network change here
-      // For example, refreshing data based on the new network
     });
   }
 };
-
-// remember to store wallet adderess and other neccessary details in context !
 
 export { getCurrentWalletConnected, checkSwitchAccounts, checkChangeNetwork };

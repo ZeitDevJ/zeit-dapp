@@ -10,7 +10,7 @@ const BasicDropDown = memo(
         navigator.clipboard.writeText(address);
         toastInvoker("success", "Successful!", "Copied to clipboard!");
       } else {
-        // hndle notification saying adderess empty
+        toastInvoker("warning", "Error!", "Address empty!");
       }
     };
 

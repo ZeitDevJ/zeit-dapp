@@ -1,5 +1,7 @@
 import { REQUIRED_CHAIN_ID } from "@/data/constants";
-const changeNetwork = async () => {
+import { getBalance } from "./get-credentials";
+
+const changeNetwork = async (setBalance, balance, account) => {
   if (typeof window !== "undefined" && window.ethereum) {
     try {
       await window.ethereum.request({
@@ -7,7 +9,13 @@ const changeNetwork = async () => {
         params: [{ chainId: REQUIRED_CHAIN_ID }],
       });
 
-      console.log("User has been prompted to switch to the Polygon network.");
+      const fetchedBal = await getBalance(account);
+      const roundedUpBal = fetchedBal.toFixed(2);
+      setBalance({
+        ...balance,
+        fullBalance: balance,
+        roundedBalance: roundedUpBal,
+      });
     } catch (error) {
       //   if (error.code === 4902) {
       //     console.log("Please add the Polygon network to MetaMask")
