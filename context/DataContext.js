@@ -20,9 +20,6 @@ const DataGet = ({ children }) => {
     roundedBalance: null,
   });
   useEffect(() => {
-    console.log(isConnected, isOnChain, appData);
-  }, [appData, isConnected, isOnChain]);
-  useEffect(() => {
     getCurrentWalletConnected(
       appData,
       setAppData,

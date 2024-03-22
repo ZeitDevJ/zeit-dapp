@@ -87,7 +87,6 @@ const checkSwitchAccounts = async (
           roundedBalance: roundedUpBal,
         });
       } else {
-        console.log(accounts[0]);
         toastInvoker(
           "warning",
           "Wallet disconnected!",
