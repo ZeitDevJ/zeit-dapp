@@ -8,5 +8,23 @@ const getBalance = async (account) => {
   balance = wei / 10 ** 18;
   return balance;
 };
+const getCurrentChainId = async () => {
+  let chainId = null;
+  if (typeof window !== "undefined" && window.ethereum) {
+    try {
+      chainId = await window.ethereum.request({
+        method: "eth_chainId",
+      });
+      return chainId;
+    } catch (error) {
+      // console.error("Error:", error.message);
+      // return null; // Return null in case of error
+    }
+  } else {
+    // console.error("Ethereum provider not found.");
+    // return null; // Return null if ethereum provider is not found
+    // you might not need to bother them
+  }
+};
 
-export { getBalance };
+export { getBalance, getCurrentChainId };

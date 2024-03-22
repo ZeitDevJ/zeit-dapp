@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { ReactSVG } from "react-svg";
+import disconnectWallet from "@/utility functions/wallet connect/disconnect";
 
 const BasicDropDown = memo(({ isOpen, address }) => {
   const copyAddress = () => {
@@ -31,7 +32,10 @@ const BasicDropDown = memo(({ isOpen, address }) => {
           <ReactSVG src="/images/nav/external-link.svg" />
           View Explorer
         </button>
-        <button className="tetiary-btn text-[#3D3D3D] rounded-[4px] tmdreg font-generic flex gap-[8px] px-[8px] py-[6px] items-center">
+        <button
+          onClick={disconnectWallet}
+          className="tetiary-btn text-[#3D3D3D] rounded-[4px] tmdreg font-generic flex gap-[8px] px-[8px] py-[6px] items-center"
+        >
           <ReactSVG src="/images/nav/log-out.svg" />
           Disconnect
         </button>

@@ -48,21 +48,23 @@ const AppLayout = () => {
       <header
         className={`fixed flex items-center justify-between bg-transparent backdrop-blur-sm w-full py-1 z-[3] px-[1rem] md:px-[2rem]`}
       >
-        <div className="">
+        <div className="w-[33.3%]">
           <Link href="/">
             <ReactSVG src="/images/main/zeit-logo-full.svg" />
           </Link>
         </div>
-        <nav
-          className={`md:w-fit ${
-            navState == false
-              ? "translate-x-[100%] md:translate-x-0"
-              : "translate-x-0"
-          } left-0 md:top-0 top-[10vh] transition-[.4s] py-[3rem] md:py-0 w-full z-[5] text-center absolute bg-white md:bg-transparent md:relative border md:border-[#E3E8EF] md:rounded-[16px] px-[8px]`}
-        >
-          <ul className="flex mx-auto w-fit justify-between">{links}</ul>
-        </nav>
-        <div className="flex items-center gap-[27px]">
+        <div className="md:w-[33.3%]">
+          <nav
+            className={`md:w-fit mx-auto ${
+              navState == false
+                ? "translate-x-[100%] md:translate-x-0"
+                : "translate-x-0"
+            } left-0 md:top-0 top-[10vh] transition-[.4s] py-[3rem] md:py-0 w-full z-[5] text-center absolute bg-white md:bg-transparent md:relative border md:border-[#E3E8EF] md:rounded-[16px] px-[8px]`}
+          >
+            <ul className="flex mx-auto w-fit justify-between">{links}</ul>
+          </nav>
+        </div>
+        <div className="flex w-[33.3%] justify-end items-center gap-[27px]">
           <NetworkComponent />
           <ConnectComponent setPopUp={setPopUp} />
         </div>

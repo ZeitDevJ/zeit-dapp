@@ -1,7 +1,7 @@
 import { useData } from "@/context/DataContext";
 import { memo } from "react";
 
-const ModalSkeleton = memo(({ children, popUp }) => {
+const ModalSkeleton = memo(({ children, popUp, width }) => {
   const { mode } = useData();
   return (
     <section
@@ -11,7 +11,7 @@ const ModalSkeleton = memo(({ children, popUp }) => {
     >
       <div className="fixed w-full top-[15vh] h-fit">
         <div
-          className={` p-[16px] w-[94%] mx-auto md:w-[25%] min-w-fit rounded-[16px] ${
+          className={` p-[16px] w-[94%] mx-auto ${width} rounded-[16px] ${
             mode ? "hero" : "bg-[#1E1E1E]"
           }  `}
         >

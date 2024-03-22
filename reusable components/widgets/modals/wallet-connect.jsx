@@ -15,7 +15,7 @@ const WalletConnect = memo(({ popUp, setPopUp }) => {
     setBalance,
   } = useData();
   return (
-    <ModalSkeleton popUp={popUp}>
+    <ModalSkeleton width="max-w-[356px]" popUp={popUp}>
       <div className="flex mb-[32px] text-black w-full justify-between">
         <p
           className={` font-generic smsbold ${
@@ -40,7 +40,8 @@ const WalletConnect = memo(({ popUp, setPopUp }) => {
               setIsConnected,
               setIsOnChain,
               balance,
-              setBalance
+              setBalance,
+              setPopUp
             )
           }
           className="flex items-center justify-between tetiary-btn rounded-[8px] px-[12px] py-[14px]"

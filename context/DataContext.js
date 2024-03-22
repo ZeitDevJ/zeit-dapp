@@ -13,7 +13,6 @@ const DataGet = ({ children }) => {
   const [isOnChain, setIsOnChain] = useState(false);
   const [appData, setAppData] = useState({
     walletAddress: null,
-    walletBalance: null,
     shortenedWAddress: null,
   });
   const [balance, setBalance] = useState({
@@ -33,7 +32,7 @@ const DataGet = ({ children }) => {
       setBalance
     );
     checkSwitchAccounts();
-    checkChangeNetwork();
+    checkChangeNetwork(setIsOnChain);
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import { getBalance } from "./get-credentials";
+import { getBalance, getCurrentChainId } from "./get-credentials";
 import shortenAdress from "../miscellanous/shorten-address";
 import { REQUIRED_CHAIN_ID } from "@/data/constants";
 
@@ -24,7 +24,7 @@ const getCurrentWalletConnected = async (
           shortenedWAddress: sAddy,
         });
         setIsConnected(true);
-        const chainId = ethereum.chainId;
+        const chainId = await getCurrentChainId();
         console.log(chainId);
         if (chainId !== REQUIRED_CHAIN_ID) {
           console.log(
@@ -70,20 +70,21 @@ const checkSwitchAccounts = async () => {
     });
   }
 };
-const checkChangeNetwork = async () => {
-  window.ethereum.on("chainChanged", (chainId) => {
-    if (chainId !== REQUIRED_CHAIN_ID) {
-      console.log(
-        `Wrong network detected. Please switch to the Polygon network from chain ${chainId}`
-      );
-      // Optionally, you can call a function to guide the user to switch networks
-      // switchToReuiredNetwork();
-    } else {
-      console.log("right network");
-    }
-    // You might want to handle network change here
-    // For example, refreshing data based on the new network
-  });
+const checkChangeNetwork = async (setIsOnChain) => {
+  if (typeof window != undefined && typeof window.ethereum != "undefined") {
+    window.ethereum.on("chainChanged", async (chainId) => {
+      if (chainId !== REQUIRED_CHAIN_ID) {
+        console.log(
+          `Wrong network detected. Please switch to the Polygon network from chain ${chainId}`
+        );
+        setIsOnChain(false);
+      } else {
+        setIsOnChain(true);
+      }
+      // You might want to handle network change here
+      // For example, refreshing data based on the new network
+    });
+  }
 };
 
 // remember to store wallet adderess and other neccessary details in context !

@@ -7,7 +7,7 @@ import BasicToolTip from "../tooltips/basic-tooltip";
 const Settings = memo(({ popUp, setPopUp }) => {
   const { mode } = useData();
   return (
-    <ModalSkeleton popUp={popUp}>
+    <ModalSkeleton width="max-w-[402px]" popUp={popUp}>
       <div className="flex mb-[16px] text-black w-full justify-between">
         <p
           className={` font-generic smsbold ${

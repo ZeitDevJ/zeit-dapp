@@ -2,7 +2,7 @@ import { REQUIRED_CHAIN_ID } from "@/data/constants";
 const changeNetwork = async () => {
   if (typeof window !== "undefined" && window.ethereum) {
     try {
-      await provider.request({
+      await window.ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: REQUIRED_CHAIN_ID }],
       });
@@ -29,6 +29,9 @@ const changeNetwork = async () => {
       //     ],
       //   });
       // for arthera
+      console.error(error);
+
+      // CODE 4001 is user rejected request
     }
   } else {
     console.error("Ethereum provider not found.");

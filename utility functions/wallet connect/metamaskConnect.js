@@ -1,5 +1,6 @@
 import shortenAdress from "../miscellanous/shorten-address";
-import { getBalance } from "./get-credentials";
+import { getBalance, getCurrentChainId } from "./get-credentials";
+import { REQUIRED_CHAIN_ID } from "@/data/constants";
 
 const metamaskConnect = async (
   appData,
@@ -7,7 +8,8 @@ const metamaskConnect = async (
   setIsConnected,
   setIsOnChain,
   balance,
-  setBalance
+  setBalance,
+  setPopUp
 ) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
     try {
@@ -23,8 +25,9 @@ const metamaskConnect = async (
         shortenedWAddress: sAddy,
       });
       setIsConnected(true);
-      const chainId = ethereum.chainId;
-      console.log(chainId);
+      setPopUp(false);
+
+      const chainId = await getCurrentChainId();
       if (chainId !== REQUIRED_CHAIN_ID) {
         console.log(
           `Wrong network detected. Please switch to the Polygon network from chain ${chainId}`
