@@ -3,13 +3,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactSVG } from "react-svg";
 import WalletConnect from "@/reusable components/widgets/modals/wallet-connect";
-import BasicDropDown from "@/reusable components/widgets/dropdowns/basic-dropdown";
+import ConnectComponent from "@/reusable components/nav/connect-component";
+import NetworkComponent from "@/reusable components/nav/network-component";
 
 const AppLayout = () => {
   const { pathname, asPath, events } = useRouter();
   const [navState, toggleNavState] = useState(false);
   const [popUp, setPopUp] = useState(false);
-  const [isOpen, setDropDownOpen] = useState(false);
   const toggleNav = () => {
     toggleNavState(!navState);
   };
@@ -63,28 +63,8 @@ const AppLayout = () => {
           <ul className="flex mx-auto w-fit justify-between">{links}</ul>
         </nav>
         <div className="flex items-center gap-[27px]">
-          {/* conditionally render */}
-          <button className="px-[8px] flex items-center py-[10px] border gap-[10px] border-[#CDD5DF] rounded-[8px]">
-            <ReactSVG src="/images/nav/warning.svg" />
-            <ReactSVG src="/images/nav/chevron.svg" />
-          </button>
-          <div className="p-[12px] relative flex items-center border gap-[10px] border-[#CDD5DF] rounded-[8px]">
-            <span className="tsmmed font-generic">36.37ETH</span>
-            <button
-              onClick={() => setDropDownOpen((prevState) => !prevState)}
-              className="flex items-center py-[6px] px-[12px] gap-[8px] text-[#333333] bg-[#EEF2F6] rounded-[6px]"
-            >
-              <span className="tsmmed font-generic">0xjus...u2</span>
-              <ReactSVG src="/images/nav/chevron.svg" />
-            </button>
-            <BasicDropDown isOpen={isOpen} />
-          </div>
-          <button
-            onClick={() => setPopUp(true)}
-            className="px-[30px] py-[10px] tmdsbold font-generic border gap-[10px] border-[#CDD5DF] rounded-[8px]"
-          >
-            Connect Wallet
-          </button>
+          <NetworkComponent />
+          <ConnectComponent setPopUp={setPopUp} />
         </div>
         <button type="button" onClick={toggleNav} className="z-[2] md:hidden">
           <svg

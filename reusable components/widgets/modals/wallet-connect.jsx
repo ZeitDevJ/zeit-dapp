@@ -5,7 +5,15 @@ import ModalSkeleton from "./modal-skeleton";
 import metamaskConnect from "@/utility functions/wallet connect/metamaskConnect";
 
 const WalletConnect = memo(({ popUp, setPopUp }) => {
-  const { mode } = useData();
+  const {
+    mode,
+    appData,
+    setAppData,
+    setIsConnected,
+    setIsOnChain,
+    balance,
+    setBalance,
+  } = useData();
   return (
     <ModalSkeleton popUp={popUp}>
       <div className="flex mb-[32px] text-black w-full justify-between">
@@ -25,7 +33,16 @@ const WalletConnect = memo(({ popUp, setPopUp }) => {
       </p>
       <div className="flex flex-col mb-[32px] gap-[16px]">
         <button
-          onClick={metamaskConnect}
+          onClick={() =>
+            metamaskConnect(
+              appData,
+              setAppData,
+              setIsConnected,
+              setIsOnChain,
+              balance,
+              setBalance
+            )
+          }
           className="flex items-center justify-between tetiary-btn rounded-[8px] px-[12px] py-[14px]"
         >
           <span className="tsmreg font-generic">Metamask</span>

@@ -1,7 +1,14 @@
 import { memo } from "react";
 import { ReactSVG } from "react-svg";
 
-const BasicDropDown = memo(({ isOpen }) => {
+const BasicDropDown = memo(({ isOpen, address }) => {
+  const copyAddress = () => {
+    if (address) {
+      navigator.clipboard.writeText(address);
+    } else {
+      // hndle notification saying adderess empty
+    }
+  };
   return (
     <div
       className={`${
@@ -9,7 +16,10 @@ const BasicDropDown = memo(({ isOpen }) => {
       } absolute bg-white w-[100%] transition-[.4s] left-0 top-[100%] p-[8px] rounded-[8px] shadow-lg`}
     >
       <div className="flex flex-col gap-[8px]">
-        <button className="tetiary-btn text-[#3D3D3D] rounded-[4px] tmdreg font-generic flex gap-[8px] px-[8px] py-[6px] items-center">
+        <button
+          onClick={copyAddress}
+          className="tetiary-btn text-[#3D3D3D] rounded-[4px] tmdreg font-generic flex gap-[8px] px-[8px] py-[6px] items-center"
+        >
           <ReactSVG src="/images/nav/copy.svg" />
           Copy Address
         </button>
