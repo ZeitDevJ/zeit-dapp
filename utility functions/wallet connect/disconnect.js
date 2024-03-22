@@ -1,7 +1,8 @@
-const disconnectWallet = async () => {
+const disconnectWallet = () => {
   if (typeof window !== "undefined" && window.ethereum) {
     try {
-      window.ethereum = null;
+      window.ethereum.chainId = null;
+      window.ethereum.selectedAddress = null;
     } catch (error) {
       console.error("Error disconnecting wallet:", error.message);
     }
