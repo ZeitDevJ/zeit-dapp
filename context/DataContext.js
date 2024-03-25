@@ -28,7 +28,13 @@ const DataGet = ({ children }) => {
       balance,
       setBalance
     );
-    checkSwitchAccounts(appData, setAppData, balance, setBalance);
+    checkSwitchAccounts(
+      appData,
+      setAppData,
+      setIsConnected,
+      balance,
+      setBalance
+    );
     checkChangeNetwork(
       setIsOnChain,
       balance,

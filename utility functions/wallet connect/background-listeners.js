@@ -32,7 +32,7 @@ const getCurrentWalletConnected = async (
           toastInvoker(
             "warning",
             "Wrong Network!",
-            "You're on a wrong chain, change to continue!"
+            "Wrong chain, change to continue!"
           );
         } else {
           const fetchedBal = await getBalance(account);
@@ -60,6 +60,7 @@ const getCurrentWalletConnected = async (
 const checkSwitchAccounts = async (
   appData,
   setAppData,
+  setIsConnected,
   balance,
   setBalance
 ) => {
@@ -90,8 +91,19 @@ const checkSwitchAccounts = async (
         toastInvoker(
           "warning",
           "Wallet disconnected!",
-          "Wallet disconnected!, connect to use this app!"
+          "Connect to use this app!"
         );
+        setAppData({
+          ...appData,
+          walletAddress: null,
+          shortenedWAddress: null,
+        });
+        setBalance({
+          ...balance,
+          fullBalance: null,
+          roundedBalance: null,
+        });
+        setIsConnected(false);
         return;
       }
     });
