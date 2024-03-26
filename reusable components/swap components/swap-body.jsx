@@ -51,6 +51,7 @@ const SwapBody = memo(
           <Input
             setTokenAmount={setTokenAmount}
             inputName="firstTokenAmount"
+            ownerBalance={firstToken.tokenBalance}
             tokenAmount={tokenAmount.firstTokenAmount}
             tokenAddress={firstToken.addy}
             changeAmount={changeAmount}
@@ -100,6 +101,7 @@ const SwapBody = memo(
           <Input
             setTokenAmount={setTokenAmount}
             inputName="secondTokenAmount"
+            ownerBalance={secondToken.tokenBalance}
             tokenAmount={tokenAmount.secondTokenAmount}
             changeAmount={changeAmount}
             tokenAddress={secondToken.addy}

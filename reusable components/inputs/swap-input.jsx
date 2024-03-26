@@ -1,31 +1,27 @@
 import { memo } from "react";
 
 const Input = memo(
-  ({ tokenAddress, tokenAmount, changeAmount, setTokenAmount, inputName }) => {
-    const handlePercentageClick = (value) => {
-      switch (value) {
+  ({ tokenAmount, ownerBalance, changeAmount, setTokenAmount, inputName }) => {
+    const handlePercentageClick = (argument) => {
+      switch (argument) {
         case 25:
           setTokenAmount({
-            ...tokenAmount,
-            [inputName]: value * 0.25,
+            [inputName]: ownerBalance * 0.25,
           });
           break;
         case 50:
           setTokenAmount({
-            ...tokenAmount,
-            [inputName]: value * 0.5,
+            [inputName]: ownerBalance * 0.5,
           });
           break;
         case 75:
           setTokenAmount({
-            ...tokenAmount,
-            [inputName]: value * 0.75,
+            [inputName]: ownerBalance * 0.75,
           });
           break;
         default:
           setTokenAmount({
-            ...tokenAmount,
-            [inputName]: value,
+            [inputName]: ownerBalance,
           });
       }
     };

@@ -20,7 +20,7 @@ const TokenSelect = memo(
       if (abbv == secondToken.name && order == "from") {
         setSecondToken({
           ...secondToken,
-          addy: firstToken.token,
+          addy: firstToken.addy,
           name: firstToken.name,
           abi: firstToken.abi,
         });
@@ -36,7 +36,7 @@ const TokenSelect = memo(
       } else if (abbv == firstToken.name && order == "to") {
         setFirstToken({
           ...firstToken,
-          addy: secondToken.token,
+          addy: secondToken.addy,
           name: secondToken.name,
           abi: secondToken.abi,
         });

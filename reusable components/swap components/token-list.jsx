@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useData } from "@/context/DataContext";
 import { coinInfo } from "@/data/constants";
 
-const TokenList = memo(() => {
+const TokenList = memo(({ selectToken }) => {
   const { providerState, appData } = useData();
   const [tokenBalances, setTokenBalances] = useState({});
 
