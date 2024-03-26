@@ -28,11 +28,39 @@ const SwapBody = memo(
       setOrder(val);
     };
     const changeAmount = ({ target }) => {
+      console.log("change triggered");
       const { name, value } = target;
       setTokenAmount({
         ...tokenAmount,
         [name]: value,
       });
+    };
+    const handlePercentageClick = (argument) => {
+      switch (argument) {
+        case "25":
+          setTokenAmount({
+            ...tokenAmount,
+            firstTokenAmount: parseInt(firstToken.tokenBalance) * 0.25,
+          });
+          break;
+        case "50":
+          setTokenAmount({
+            ...tokenAmount,
+            firstTokenAmount: parseInt(firstToken.tokenBalance) * 0.5,
+          });
+          break;
+        case "75":
+          setTokenAmount({
+            ...tokenAmount,
+            firstTokenAmount: parseInt(firstToken.tokenBalance) * 0.75,
+          });
+          break;
+        default:
+          setTokenAmount({
+            ...tokenAmount,
+            firstTokenAmount: parseInt(firstToken.tokenBalance),
+          });
+      }
     };
     return (
       <>
@@ -49,9 +77,8 @@ const SwapBody = memo(
             </button>
           </div>
           <Input
-            setTokenAmount={setTokenAmount}
             inputName="firstTokenAmount"
-            ownerBalance={firstToken.tokenBalance}
+            handlePercentageClick={handlePercentageClick}
             tokenAmount={tokenAmount.firstTokenAmount}
             tokenAddress={firstToken.addy}
             changeAmount={changeAmount}
@@ -99,9 +126,7 @@ const SwapBody = memo(
             </button>
           </div>
           <Input
-            setTokenAmount={setTokenAmount}
             inputName="secondTokenAmount"
-            ownerBalance={secondToken.tokenBalance}
             tokenAmount={tokenAmount.secondTokenAmount}
             changeAmount={changeAmount}
             tokenAddress={secondToken.addy}
