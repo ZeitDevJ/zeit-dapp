@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeadComp from "@/layout/HeadComp";
 import { useData } from "@/context/DataContext";
 import ChartComponent from "@/reusable components/swap components/chart-component";
@@ -6,19 +6,24 @@ import SwapBody from "@/reusable components/swap components/swap-body";
 import TokenSelect from "@/reusable components/widgets/modals/token-select";
 import { ReactSVG } from "react-svg";
 import Settings from "@/reusable components/widgets/modals/settings";
-import toastInvoker from "@/utility functions/miscellanous/toast-invoker";
+import E20ABI from "@/data/ERC20-token-abi";
+import { ethers } from "ethers";
 
 const Swap = () => {
-  const { mode } = useData();
+  const { mode, appData, providerState } = useData();
   const [chartMod, setChartMod] = useState(false);
-  const [symbol, setSymbol] = useState("BTCUSDT");
+  const [symbol, setSymbol] = useState("WETHT1");
   const [firstToken, setFirstToken] = useState({
-    name: "BTC",
-    addy: "0xB77a3B530c4B268873dc7F5E6270Ef115A655E7F",
+    name: "WETH",
+    addy: "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9",
+    abi: E20ABI,
+    tokenBalance: null,
   });
   const [secondToken, setSecondToken] = useState({
-    name: "USDT",
-    addy: "0xC067882ff7528E878fbC85f876a1D4e1964d0dBa",
+    name: "T1",
+    addy: "0x619aA97A3Ee04bb6A4d0248a4693b23cabe3f75a",
+    abi: E20ABI,
+    tokenBalance: null,
   });
   const [tokenAmount, setTokenAmount] = useState({
     firstTokenAmount: "",
@@ -28,7 +33,50 @@ const Swap = () => {
   const [popUp, setModal] = useState(false);
   const [settingsPopup, setPopUp] = useState(false);
   const [order, setOrder] = useState(null);
+  useEffect(() => {
+    const fetchTokenBalances = async () => {
+      if (!appData.walletAddress) return;
 
+      const firstContract = new ethers.Contract(
+        firstToken.addy,
+        firstToken.abi,
+        providerState
+      );
+      const secondContract = new ethers.Contract(
+        secondToken.addy,
+        secondToken.abi,
+        providerState
+      );
+
+      try {
+        const firstBalance = await firstContract.balanceOf(
+          appData.walletAddress
+        );
+        const secondBalance = await secondContract.balanceOf(
+          appData.walletAddress
+        );
+
+        setFirstToken((prevState) => ({
+          ...prevState,
+          tokenBalance: ethers.utils.formatEther(firstBalance),
+        }));
+        setSecondToken((prevState) => ({
+          ...prevState,
+          tokenBalance: ethers.utils.formatEther(secondBalance),
+        }));
+      } catch (error) {
+        console.error("Error fetching token balances:", error);
+      }
+    };
+
+    fetchTokenBalances();
+  }, [
+    appData.walletAddress,
+    firstToken.addy,
+    firstToken.abi,
+    secondToken.addy,
+    secondToken.abi,
+  ]);
   return (
     <>
       <HeadComp title="Zeit | Swap" />

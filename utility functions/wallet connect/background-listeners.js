@@ -2,6 +2,7 @@ import { getBalance, getCurrentChainId } from "./get-credentials";
 import shortenAdress from "../miscellanous/shorten-address";
 import { REQUIRED_CHAIN_ID } from "@/data/constants";
 import toastInvoker from "../miscellanous/toast-invoker";
+import { ethers } from "ethers";
 
 const getCurrentWalletConnected = async (
   appData,
@@ -9,13 +10,15 @@ const getCurrentWalletConnected = async (
   setIsConnected,
   setIsOnChain,
   balance,
-  setBalance
+  setBalance,
+  setProviderState,
+  setSignerState
 ) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
     try {
-      const accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await provider.send("eth_accounts", []);
+      const signer = provider.getSigner();
       if (accounts.length > 0) {
         const account = accounts[0];
         const sAddy = shortenAdress(account);
@@ -24,6 +27,8 @@ const getCurrentWalletConnected = async (
           walletAddress: account,
           shortenedWAddress: sAddy,
         });
+        setProviderState(provider);
+        setSignerState(signer);
         setIsConnected(true);
         toastInvoker("success", "Success!", "Wallet connected successfully!");
 
@@ -51,7 +56,7 @@ const getCurrentWalletConnected = async (
       toastInvoker(
         "danger",
         "Network connection error!",
-        "Check your network, try reloading thi page, this might help!"
+        "Check your network!"
       );
     }
   }
@@ -62,18 +67,25 @@ const checkSwitchAccounts = async (
   setAppData,
   setIsConnected,
   balance,
-  setBalance
+  setBalance,
+  setProviderState,
+  setSignerState
 ) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
-    window.ethereum.on("accountsChanged", async (accounts) => {
-      if (accounts.length > 0) {
+    window.ethereum.on("accountsChanged", async () => {
+      if (accounts.length > 0 && appData.walletAddress != null) {
         toastInvoker(
           "info",
           "Account changed!",
           "Refreshing wallet details..."
         );
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await provider.send("eth_accounts", []);
+        const signer = provider.getSigner();
         const account = accounts[0];
         const sAddy = shortenAdress(account);
+        setProviderState(provider);
+        setSignerState(signer);
         setAppData({
           ...appData,
           walletAddress: account,
@@ -87,6 +99,8 @@ const checkSwitchAccounts = async (
           fullBalance: balance,
           roundedBalance: roundedUpBal,
         });
+      } else if (accounts.length > 0 && appData.walletAddress == null) {
+        return;
       } else {
         toastInvoker(
           "warning",

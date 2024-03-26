@@ -13,6 +13,8 @@ const WalletConnect = memo(({ popUp, setPopUp }) => {
     setIsOnChain,
     balance,
     setBalance,
+    setSignerState,
+    setProviderState,
   } = useData();
   return (
     <ModalSkeleton width="max-w-[356px]" popUp={popUp}>
@@ -41,7 +43,9 @@ const WalletConnect = memo(({ popUp, setPopUp }) => {
               setIsOnChain,
               balance,
               setBalance,
-              setPopUp
+              setPopUp,
+              setSignerState,
+              setProviderState
             )
           }
           className="flex items-center justify-between tetiary-btn rounded-[8px] px-[12px] py-[14px]"

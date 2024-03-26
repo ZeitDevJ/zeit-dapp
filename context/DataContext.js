@@ -19,6 +19,8 @@ const DataGet = ({ children }) => {
     fullBalance: null,
     roundedBalance: null,
   });
+  const [signerState, setSignerState] = useState(null);
+  const [providerState, setProviderState] = useState(null);
   useEffect(() => {
     getCurrentWalletConnected(
       appData,
@@ -26,14 +28,18 @@ const DataGet = ({ children }) => {
       setIsConnected,
       setIsOnChain,
       balance,
-      setBalance
+      setBalance,
+      setProviderState,
+      setSignerState
     );
     checkSwitchAccounts(
       appData,
       setAppData,
       setIsConnected,
       balance,
-      setBalance
+      setBalance,
+      setProviderState,
+      setSignerState
     );
     checkChangeNetwork(
       setIsOnChain,
@@ -56,6 +62,10 @@ const DataGet = ({ children }) => {
         setAppData,
         balance,
         setBalance,
+        signerState,
+        setSignerState,
+        providerState,
+        setProviderState,
       }}
     >
       {children}

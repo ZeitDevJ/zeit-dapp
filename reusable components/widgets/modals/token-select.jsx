@@ -2,6 +2,7 @@ import { ReactSVG } from "react-svg";
 import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
 import { memo } from "react";
+import TokenList from "@/reusable components/swap components/token-list";
 
 const TokenSelect = memo(
   ({
@@ -15,45 +16,56 @@ const TokenSelect = memo(
     setSymbol,
   }) => {
     const { mode } = useData();
-
-    const selectToken = (abbrev, cAddress) => {
-      if (abbrev == secondToken.name && order == "from") {
+    const selectToken = (abi, abbv, address) => {
+      if (abbv == secondToken.name && order == "from") {
         setSecondToken({
+          ...secondToken,
           addy: firstToken.token,
           name: firstToken.name,
+          abi: firstToken.abi,
         });
         setFirstToken({
-          addy: cAddress,
-          name: abbrev,
+          ...firstToken,
+          addy: address,
+          name: abbv,
+          abi: abi,
         });
-        setSymbol(abbrev + firstToken.name);
+        setSymbol(abbv + firstToken.name);
         setModal(false);
         return;
-      } else if (abbrev == firstToken.name && order == "to") {
+      } else if (abbv == firstToken.name && order == "to") {
         setFirstToken({
+          ...firstToken,
           addy: secondToken.token,
           name: secondToken.name,
+          abi: secondToken.abi,
         });
         setSecondToken({
-          addy: cAddress,
-          name: abbrev,
+          ...secondToken,
+          addy: address,
+          name: abbv,
+          abi: abi,
         });
-        setSymbol(secondToken.name + abbrev);
+        setSymbol(secondToken.name + abbv);
         setModal(false);
         return;
       }
       if (order == "from") {
         setFirstToken({
-          addy: cAddress,
-          name: abbrev,
+          ...firstToken,
+          addy: address,
+          name: abbv,
+          abi: abi,
         });
-        setSymbol(abbrev + secondToken.name);
+        setSymbol(abbv + secondToken.name);
       } else {
         setSecondToken({
-          addy: cAddress,
-          name: abbrev,
+          ...secondToken,
+          addy: address,
+          name: abbv,
+          abi: abi,
         });
-        setSymbol(firstToken.name + abbrev);
+        setSymbol(firstToken.name + abbv);
       }
       setModal(false);
     };
@@ -105,7 +117,9 @@ const TokenSelect = memo(
           </button>
         </div>
         <h3 className="font-Inter text-[16px] font-[700]">Token List</h3>
-        <div className="overflow-y-auto max-h-[30vh]">Show list here</div>
+        <div className="overflow-y-auto max-h-[30vh]">
+          <TokenList selectToken={selectToken} />
+        </div>
       </ModalSkeleton>
     );
   }

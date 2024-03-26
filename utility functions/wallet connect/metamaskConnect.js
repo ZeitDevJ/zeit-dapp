@@ -2,6 +2,7 @@ import shortenAdress from "../miscellanous/shorten-address";
 import { getBalance, getCurrentChainId } from "./get-credentials";
 import { REQUIRED_CHAIN_ID } from "@/data/constants";
 import toastInvoker from "../miscellanous/toast-invoker";
+import { ethers } from "ethers";
 
 const metamaskConnect = async (
   appData,
@@ -10,16 +11,19 @@ const metamaskConnect = async (
   setIsOnChain,
   balance,
   setBalance,
-  setPopUp
+  setPopUp,
+  setSignerState,
+  setProviderState
 ) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
     try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const accounts = await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
       const account = accounts[0];
       const sAddy = shortenAdress(account);
+      setProviderState(provider);
+      setSignerState(signer);
       setAppData({
         ...appData,
         walletAddress: account,
