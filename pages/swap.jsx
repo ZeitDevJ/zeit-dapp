@@ -8,9 +8,10 @@ import { ReactSVG } from "react-svg";
 import Settings from "@/reusable components/widgets/modals/settings";
 import E20ABI from "@/data/ERC20-token-abi";
 import { ethers } from "ethers";
+import roundDown from "@/utility functions/miscellanous/round-down";
 
 const Swap = () => {
-  const { mode, appData, providerState } = useData();
+  const { mode, appData, providerState, isOnChain, balance } = useData();
   const [chartMod, setChartMod] = useState(false);
   const [symbol, setSymbol] = useState("WETHT1");
   const [firstToken, setFirstToken] = useState({
@@ -23,7 +24,6 @@ const Swap = () => {
     name: "T1",
     addy: "0x619aA97A3Ee04bb6A4d0248a4693b23cabe3f75a",
     abi: E20ABI,
-    tokenBalance: null,
   });
   const [tokenAmount, setTokenAmount] = useState({
     firstTokenAmount: "",
@@ -35,48 +35,15 @@ const Swap = () => {
   const [order, setOrder] = useState(null);
   useEffect(() => {
     const fetchTokenBalances = async () => {
-      if (!appData.walletAddress) return;
-
-      const firstContract = new ethers.Contract(
-        firstToken.addy,
-        firstToken.abi,
-        providerState
-      );
-      const secondContract = new ethers.Contract(
-        secondToken.addy,
-        secondToken.abi,
-        providerState
-      );
-
-      try {
-        const firstBalance = await firstContract.balanceOf(
-          appData.walletAddress
-        );
-        const secondBalance = await secondContract.balanceOf(
-          appData.walletAddress
-        );
-
-        setFirstToken((prevState) => ({
-          ...prevState,
-          tokenBalance: ethers.utils.formatEther(firstBalance),
-        }));
-        setSecondToken((prevState) => ({
-          ...prevState,
-          tokenBalance: ethers.utils.formatEther(secondBalance),
-        }));
-      } catch (error) {
-        console.error("Error fetching token balances:", error);
-      }
+      if (!appData.walletAddress && !isOnChain) return;
+      const roundBalance = roundDown(balance.fullBalance);
+      setFirstToken({
+        ...firstToken,
+        tokenBalance: roundBalance,
+      });
     };
-
     fetchTokenBalances();
-  }, [
-    appData.walletAddress,
-    firstToken.addy,
-    firstToken.abi,
-    secondToken.addy,
-    secondToken.abi,
-  ]);
+  }, [appData.walletAddress, isOnChain]);
   return (
     <>
       <HeadComp title="Zeit | Swap" />

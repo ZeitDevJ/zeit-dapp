@@ -2,20 +2,31 @@ import { useState, useEffect, memo } from "react";
 import { ethers } from "ethers";
 import { useData } from "@/context/DataContext";
 import { coinInfo } from "@/data/constants";
+import roundDown from "@/utility functions/miscellanous/round-down";
 
 const TokenList = memo(({ selectToken }) => {
-  const { providerState, appData } = useData();
+  const { providerState, appData, isOnChain, balance } = useData();
   const [tokenBalances, setTokenBalances] = useState({});
 
   useEffect(() => {
     const fetchTokenBalances = async () => {
-      const balances = {};
+      let balances = {};
       await Promise.all(
         coinInfo.map(async ({ id, address, abi }) => {
           const Contract = new ethers.Contract(address, abi, providerState);
-          if (appData.walletAddress) {
-            const data = await Contract.balanceOf(appData.walletAddress);
-            balances[id] = ethers.utils.formatEther(data);
+          if (appData.walletAddress && isOnChain) {
+            if (address == "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9") {
+              const roundBal = roundDown(balance.fullBalance);
+              balances[id] = roundBal;
+            } else {
+              const data = await Contract.balanceOf(appData.walletAddress);
+              const roundBal = roundDown(ethers.utils.formatEther(data));
+              if (roundBal === 0) {
+                balances[id] = "0";
+              } else {
+                balances[id] = roundBal;
+              }
+            }
           }
         })
       );
@@ -23,13 +34,13 @@ const TokenList = memo(({ selectToken }) => {
     };
 
     fetchTokenBalances();
-  }, [providerState, appData.walletAddress]);
+  }, [providerState, appData.walletAddress, isOnChain, balance.fullBalance]);
 
   return (
     <div>
       {coinInfo.map(({ id, abbv, tokenName, abi, address }) => (
         <button
-          onClick={() => selectToken(abi, abbv, address)}
+          onClick={() => selectToken(abi, abbv, address, tokenBalances[id])}
           key={id}
           className="my-[8px] w-full hover:bg-[#00000010] transition-[.4s] rounded-[8px] flex justify-between items-center py-[4px] px-[8px]"
         >

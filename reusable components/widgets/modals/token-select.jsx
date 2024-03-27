@@ -16,7 +16,7 @@ const TokenSelect = memo(
     setSymbol,
   }) => {
     const { mode } = useData();
-    const selectToken = (abi, abbv, address) => {
+    const selectToken = (abi, abbv, address, accountBal) => {
       if (abbv == secondToken.name && order == "from") {
         setSecondToken({
           ...secondToken,
@@ -29,6 +29,7 @@ const TokenSelect = memo(
           addy: address,
           name: abbv,
           abi: abi,
+          tokenBalance: accountBal,
         });
         setSymbol(abbv + firstToken.name);
         setModal(false);
@@ -39,6 +40,7 @@ const TokenSelect = memo(
           addy: secondToken.addy,
           name: secondToken.name,
           abi: secondToken.abi,
+          tokenBalance: accountBal,
         });
         setSecondToken({
           ...secondToken,
@@ -56,6 +58,7 @@ const TokenSelect = memo(
           addy: address,
           name: abbv,
           abi: abi,
+          tokenBalance: accountBal,
         });
         setSymbol(abbv + secondToken.name);
       } else {
@@ -83,15 +86,15 @@ const TokenSelect = memo(
             <ReactSVG src="/images/swap/close.svg" />
           </button>
         </div>
-        {/* <p className="text-[16px] font-Inter font-[400]">
-            Search using a Token name or Contract address
-          </p>
-          <div className="">
-            <input
-              type="text"
-              className="w-full p-[6px] my-[16px] text-[#A3A3A3] font-Inter text-[16px] font-[400] text-input"
-            />
-          </div> */}
+        <p className="text-[16px] font-Inter font-[400]">
+          Search using a Token name or Contract address
+        </p>
+        <div className="">
+          <input
+            type="text"
+            className="w-full p-[6px] my-[16px] text-[#A3A3A3] font-Inter text-[16px] font-[400] text-input"
+          />
+        </div>
         <h3 className="font-generic tmdbold mb-[16px]">Hot Tokens</h3>
         <div className="flex gap-[16px] overflow-x-auto mb-[12px] pb-[4px]">
           <button

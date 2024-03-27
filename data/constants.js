@@ -24,5 +24,5 @@ const coinInfo = [
     abi: E20ABI,
   },
 ];
-
-export { REQUIRED_CHAIN_ID, coinInfo };
+const routerAddress = "0x4Fb5031B999597A7112b310D924c01047140ce85";
+export { REQUIRED_CHAIN_ID, coinInfo, routerAddress };

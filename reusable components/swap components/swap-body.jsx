@@ -1,6 +1,9 @@
 import { memo } from "react";
 import Input from "../inputs/swap-input";
 import { ReactSVG } from "react-svg";
+import { useData } from "@/context/DataContext";
+import { ethers } from "ethers";
+import roundDown from "@/utility functions/miscellanous/round-down";
 
 const SwapBody = memo(
   ({
@@ -16,11 +19,39 @@ const SwapBody = memo(
     setModal,
     setOrder,
   }) => {
-    const handleSwitch = () => {
+    const { providerState, appData, balance } = useData();
+    const handleSwitch = async () => {
       setStat(true);
+      if (secondToken.addy === "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9") {
+        const roundBal = roundDown(balance.fullBalance);
+        setFirstToken({
+          name: secondToken.name,
+          addy: secondToken.addy,
+          abi: secondToken.abi,
+          tokenBalance: roundBal,
+        });
+      } else {
+        const Contract = new ethers.Contract(
+          secondToken.addy,
+          secondToken.abi,
+          providerState
+        );
+        const data = await Contract.balanceOf(appData.walletAddress);
+        const roundBal = roundDown(ethers.utils.formatEther(data));
+
+        setFirstToken({
+          name: secondToken.name,
+          addy: secondToken.addy,
+          abi: secondToken.abi,
+          tokenBalance: roundBal,
+        });
+      }
+      setSecondToken({
+        name: firstToken.name,
+        addy: firstToken.addy,
+        abi: firstToken.abi,
+      });
       setTimeout(() => setStat(false), 500);
-      setFirstToken(secondToken);
-      setSecondToken(firstToken);
       setSymbol(secondToken.name + firstToken.name);
     };
     const togglePopUp = (val) => {
@@ -28,7 +59,6 @@ const SwapBody = memo(
       setOrder(val);
     };
     const changeAmount = ({ target }) => {
-      console.log("change triggered");
       const { name, value } = target;
       setTokenAmount({
         ...tokenAmount,
@@ -40,25 +70,25 @@ const SwapBody = memo(
         case "25":
           setTokenAmount({
             ...tokenAmount,
-            firstTokenAmount: parseInt(firstToken.tokenBalance) * 0.25,
+            firstTokenAmount: firstToken.tokenBalance * 0.25,
           });
           break;
         case "50":
           setTokenAmount({
             ...tokenAmount,
-            firstTokenAmount: parseInt(firstToken.tokenBalance) * 0.5,
+            firstTokenAmount: firstToken.tokenBalance * 0.5,
           });
           break;
         case "75":
           setTokenAmount({
             ...tokenAmount,
-            firstTokenAmount: parseInt(firstToken.tokenBalance) * 0.75,
+            firstTokenAmount: firstToken.tokenBalance * 0.75,
           });
           break;
         default:
           setTokenAmount({
             ...tokenAmount,
-            firstTokenAmount: parseInt(firstToken.tokenBalance),
+            firstTokenAmount: firstToken.tokenBalance,
           });
       }
     };

@@ -25,7 +25,7 @@ const Input = memo(
               placeholder="0.0"
             />
             <p className="text-[#9AA4B2] text-[14px] font-[400] font-Inter text-right">
-              {/* <TokenComponent token={tokenAddress} /> */}
+              {/* price here  */}
             </p>
           </div>
         </div>

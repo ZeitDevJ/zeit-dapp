@@ -45,7 +45,7 @@ const metamaskConnect = async (
         const roundedUpBal = fetchedBal.toFixed(2);
         setBalance({
           ...balance,
-          fullBalance: balance,
+          fullBalance: fetchedBal,
           roundedBalance: roundedUpBal,
         });
         setIsOnChain(true);
