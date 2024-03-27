@@ -1,7 +1,25 @@
 import { memo } from "react";
 
 const Input = memo(
-  ({ tokenAmount, changeAmount, handlePercentageClick, inputName }) => {
+  ({
+    tokenAmount,
+    changeAmount,
+    handlePercentageClick,
+    inputName,
+    fetchAmount,
+  }) => {
+    const handleKeyDown = (event) => {
+      const key = event.code || event.keyCode;
+      if (
+        key === "e" ||
+        key === "E" ||
+        key === "KeyE" ||
+        key === "Keye" ||
+        key === "Minus"
+      ) {
+        event.preventDefault();
+      }
+    };
     return (
       <>
         <div className="my-[8px] bg-[#F8FAFC] rounded-[8px] p-[8px] flex justify-between items-center">
@@ -21,6 +39,8 @@ const Input = memo(
               name={inputName}
               value={tokenAmount}
               onChange={changeAmount}
+              onKeyDown={handleKeyDown}
+              onBlur={fetchAmount}
               className="text-[#9AA4B2] h-[30px] font-Inter text-[20px] text-right w-full bg-transparent outline-none font-[500]"
               placeholder="0.0"
             />

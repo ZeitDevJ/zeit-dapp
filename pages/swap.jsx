@@ -7,11 +7,13 @@ import TokenSelect from "@/reusable components/widgets/modals/token-select";
 import { ReactSVG } from "react-svg";
 import Settings from "@/reusable components/widgets/modals/settings";
 import E20ABI from "@/data/ERC20-token-abi";
-import { ethers } from "ethers";
+import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
 import roundDown from "@/utility functions/miscellanous/round-down";
+import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
+import SwapButton from "@/reusable components/swap components/swap-button";
 
 const Swap = () => {
-  const { mode, appData, providerState, isOnChain, balance } = useData();
+  const { mode, appData, isOnChain, balance, providerState } = useData();
   const [chartMod, setChartMod] = useState(false);
   const [symbol, setSymbol] = useState("WETHT1");
   const [firstToken, setFirstToken] = useState({
@@ -27,12 +29,15 @@ const Swap = () => {
   });
   const [tokenAmount, setTokenAmount] = useState({
     firstTokenAmount: "",
+    firstTokenFullAmount: "",
     secondTokenAmount: "",
+    secondTokenFullAmount: "",
   });
   const [rotateStat, setStat] = useState(false);
   const [popUp, setModal] = useState(false);
   const [settingsPopup, setPopUp] = useState(false);
   const [order, setOrder] = useState(null);
+  const [buttonState, setButtonState] = useState("");
   useEffect(() => {
     const fetchTokenBalances = async () => {
       if (!appData.walletAddress && !isOnChain) return;
@@ -44,6 +49,56 @@ const Swap = () => {
     };
     fetchTokenBalances();
   }, [appData.walletAddress, isOnChain]);
+
+  const fetchAmount = async (e) => {
+    const { target } = e;
+    if (target.value == "firstTokenAmount") {
+      if (target.value == "" || target.value == null) {
+        setTokenAmount({
+          ...tokenAmount,
+          firstTokenAmount: "",
+          firstTokenFullAmount: "",
+        });
+        return;
+      }
+      const convertedInput = convertToWEI(target.value);
+      const amount = await getAmountsOut(
+        providerState,
+        convertedInput,
+        firstToken.addy,
+        secondToken.addy
+      );
+      const roundAmount = roundDown(amount);
+      setTokenAmount({
+        ...tokenAmount,
+        firstTokenAmount: roundAmount,
+        firstFullAmount: amount,
+      });
+    } else {
+      if (target.value == "" || target.value == null) {
+        setTokenAmount({
+          ...tokenAmount,
+          secondTokenAmount: "",
+          secondTokenFullAmount: "",
+        });
+        return;
+      }
+      const convertedInput = convertToWEI(target.value);
+      const amount = await getAmountsOut(
+        providerState,
+        convertedInput,
+        secondToken.addy,
+        firstToken.addy
+      );
+      const roundAmount = roundDown(amount);
+      setTokenAmount({
+        ...tokenAmount,
+        secondTokenAmount: roundAmount,
+        secondTokenFullAmount: amount,
+      });
+    }
+    setButtonState("ready");
+  };
   return (
     <>
       <HeadComp title="Zeit | Swap" />
@@ -116,15 +171,14 @@ const Swap = () => {
               setModal={setModal}
               setOrder={setOrder}
               rotateStat={rotateStat}
+              fetchAmount={fetchAmount}
             />
             <div className="my-[16px] font-Inter text-[14px] font-[500] text-[#202939] flex justify-between items-center">
               <span className="">Slippage</span>
               <span className="">5%</span>
             </div>
             <section className="">
-              <button disabled className="w-full medium-btn default-btn">
-                Wallet Not Connected
-              </button>
+              <SwapButton buttonState={buttonState} />
             </section>
           </div>
         </section>

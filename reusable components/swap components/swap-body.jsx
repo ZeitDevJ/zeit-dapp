@@ -4,6 +4,8 @@ import { ReactSVG } from "react-svg";
 import { useData } from "@/context/DataContext";
 import { ethers } from "ethers";
 import roundDown from "@/utility functions/miscellanous/round-down";
+import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
+import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
 
 const SwapBody = memo(
   ({
@@ -18,6 +20,7 @@ const SwapBody = memo(
     setSymbol,
     setModal,
     setOrder,
+    fetchAmount,
   }) => {
     const { providerState, appData, balance } = useData();
     const handleSwitch = async () => {
@@ -65,6 +68,23 @@ const SwapBody = memo(
         [name]: value,
       });
     };
+
+    const calcAmount = async (argument) => {
+      const balance = argument.toString();
+      const convertedInput = convertToWEI(balance);
+      const amount = await getAmountsOut(
+        providerState,
+        convertedInput,
+        firstToken.addy,
+        secondToken.addy
+      );
+      const roundAmount = roundDown(amount);
+      setTokenAmount((previous) => ({
+        ...previous,
+        secondTokenAmount: roundAmount,
+        secondTokenFullAmount: amount,
+      }));
+    };
     const handlePercentageClick = (argument) => {
       switch (argument) {
         case "25":
@@ -72,24 +92,28 @@ const SwapBody = memo(
             ...tokenAmount,
             firstTokenAmount: firstToken.tokenBalance * 0.25,
           });
+          calcAmount(firstToken.tokenBalance * 0.25);
           break;
         case "50":
           setTokenAmount({
             ...tokenAmount,
             firstTokenAmount: firstToken.tokenBalance * 0.5,
           });
+          calcAmount(firstToken.tokenBalance * 0.5);
           break;
         case "75":
           setTokenAmount({
             ...tokenAmount,
             firstTokenAmount: firstToken.tokenBalance * 0.75,
           });
+          calcAmount(firstToken.tokenBalance * 0.75);
           break;
         default:
           setTokenAmount({
             ...tokenAmount,
             firstTokenAmount: firstToken.tokenBalance,
           });
+          calcAmount(firstToken.tokenBalance);
       }
     };
     return (
@@ -107,6 +131,7 @@ const SwapBody = memo(
             </button>
           </div>
           <Input
+            fetchAmount={fetchAmount}
             inputName="firstTokenAmount"
             handlePercentageClick={handlePercentageClick}
             tokenAmount={tokenAmount.firstTokenAmount}
@@ -157,6 +182,7 @@ const SwapBody = memo(
           </div>
           <Input
             inputName="secondTokenAmount"
+            fetchAmount={fetchAmount}
             tokenAmount={tokenAmount.secondTokenAmount}
             changeAmount={changeAmount}
             tokenAddress={secondToken.addy}
