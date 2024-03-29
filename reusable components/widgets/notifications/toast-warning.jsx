@@ -3,7 +3,7 @@ import { ReactSVG } from "react-svg";
 const ToastWarning = ({ toast, t, title, content }) => {
   return (
     <div className="bg-[#fff] w-[415px] rounded-[8px] overflow-hidden shadow-lg flex items-center h-[72px]">
-      <figure className="w-[72px] text-[#17B26A] bg-[url(/images/widgets/success-ring.jpg)] bg-center h-full flex justify-center items-center">
+      <figure className="w-[72px] text-[#F79009] bg-[url(/images/widgets/warning-ring.jpg)] bg-center h-full flex justify-center items-center">
         <ReactSVG src="/images/widgets/info-bell.svg" />
       </figure>
       <div className="flex-1 pl-[8px]">

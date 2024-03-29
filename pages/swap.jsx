@@ -39,21 +39,18 @@ const Swap = () => {
   const [settingsPopup, setPopUp] = useState(false);
   const [order, setOrder] = useState(null);
   const [buttonState, setButtonState] = useState("");
-  useEffect(() => {
-    const fetchTokenBalances = async () => {
-      console.log(isConnected);
-      if (!appData.walletAddress && !isOnChain && !isConnected) return;
 
-      // the null thingy is bringing an err too on if usr is disconnected
-      const roundBalance = roundDown(balance.fullBalance);
-      console.log(balance.fullBalance);
+  useEffect(() => {
+    const roundBalance = roundDown(balance.fullBalance);
+    const fetchTokenBalances = async () => {
+      if (!appData.walletAddress && !isOnChain && !isConnected) return;
       setFirstToken({
         ...firstToken,
         tokenBalance: roundBalance,
       });
     };
     fetchTokenBalances();
-  }, [appData.walletAddress, isOnChain, isConnected]);
+  }, [appData.walletAddress, isOnChain, isConnected, balance.fullBalance]);
 
   const fetchAmount = async (e) => {
     const { target } = e;
