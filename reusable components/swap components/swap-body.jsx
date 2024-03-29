@@ -119,7 +119,7 @@ const SwapBody = memo(
     return (
       <>
         <div className="p-[8px] border border-[#E3E8EF] rounded-[16px]">
-          <div className="h-[40px]">
+          <div className="h-[40px] flex items-center justify-between">
             <button
               onClick={() => togglePopUp("from")}
               className="h-full rounded-[8px] w-fit font-Inter font-[400] text-[#364152] text-[14px] flex items-center p-[8px]"
@@ -129,6 +129,9 @@ const SwapBody = memo(
                 <ReactSVG src="/images/nav/chevron.svg" />
               </span>
             </button>
+            <div className="tsmreg font-generic">
+              Bal: {firstToken.tokenBalance}
+            </div>
           </div>
           <Input
             fetchAmount={fetchAmount}

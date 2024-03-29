@@ -13,7 +13,8 @@ import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import SwapButton from "@/reusable components/swap components/swap-button";
 
 const Swap = () => {
-  const { mode, appData, isOnChain, balance, providerState } = useData();
+  const { mode, appData, isOnChain, balance, providerState, isConnected } =
+    useData();
   const [chartMod, setChartMod] = useState(false);
   const [symbol, setSymbol] = useState("WETHT1");
   const [firstToken, setFirstToken] = useState({
@@ -40,15 +41,19 @@ const Swap = () => {
   const [buttonState, setButtonState] = useState("");
   useEffect(() => {
     const fetchTokenBalances = async () => {
-      if (!appData.walletAddress && !isOnChain) return;
+      console.log(isConnected);
+      if (!appData.walletAddress && !isOnChain && !isConnected) return;
+
+      // the null thingy is bringing an err too on if usr is disconnected
       const roundBalance = roundDown(balance.fullBalance);
+      console.log(balance.fullBalance);
       setFirstToken({
         ...firstToken,
         tokenBalance: roundBalance,
       });
     };
     fetchTokenBalances();
-  }, [appData.walletAddress, isOnChain]);
+  }, [appData.walletAddress, isOnChain, isConnected]);
 
   const fetchAmount = async (e) => {
     const { target } = e;
