@@ -1,7 +1,8 @@
 import { useData } from "@/context/DataContext";
 import { memo } from "react";
 
-const SwapButton = memo(({ buttonState }) => {
+const SwapButton = memo(({ tokenAmount, fetchReserves }) => {
+  const { firstTokenAmount, secondTokenAmount } = tokenAmount;
   const { isConnected } = useData();
   if (isConnected !== true) {
     return (
@@ -9,14 +10,28 @@ const SwapButton = memo(({ buttonState }) => {
         Wallet Not Connected
       </button>
     );
-  } else if (buttonState === "") {
-    return (
-      <button disabled className="w-full medium-btn default-btn">
-        Enter an amount
-      </button>
-    );
-  } else if (buttonState === "ready") {
-    return <button className="w-full medium-btn default-btn">Get quote</button>;
+  } else {
+    if (
+      firstTokenAmount !== null &&
+      firstTokenAmount !== "" &&
+      secondTokenAmount !== null &&
+      secondTokenAmount !== ""
+    ) {
+      return (
+        <button
+          onClick={fetchReserves}
+          className="w-full medium-btn default-btn"
+        >
+          Get quote
+        </button>
+      );
+    } else {
+      return (
+        <button disabled className="w-full medium-btn default-btn">
+          Enter an amount
+        </button>
+      );
+    }
   }
 });
 

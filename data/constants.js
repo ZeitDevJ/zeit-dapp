@@ -1,6 +1,8 @@
 import E20ABI from "./ERC20-token-abi";
 
 const REQUIRED_CHAIN_ID = "0xaa36a7";
+const routerAddress = "0x4Fb5031B999597A7112b310D924c01047140ce85";
+const factoryAddress = "0x31248DA40Bc666816c3C54fBe0D42C949E51B0bC";
 const coinInfo = [
   {
     id: 1,
@@ -24,5 +26,4 @@ const coinInfo = [
     abi: E20ABI,
   },
 ];
-const routerAddress = "0x4Fb5031B999597A7112b310D924c01047140ce85";
-export { REQUIRED_CHAIN_ID, coinInfo, routerAddress };
+export { REQUIRED_CHAIN_ID, coinInfo, routerAddress, factoryAddress };

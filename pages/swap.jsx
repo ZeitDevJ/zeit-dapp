@@ -7,10 +7,14 @@ import TokenSelect from "@/reusable components/widgets/modals/token-select";
 import { ReactSVG } from "react-svg";
 import Settings from "@/reusable components/widgets/modals/settings";
 import E20ABI from "@/data/ERC20-token-abi";
-import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
+import {
+  getAmountsOut,
+  getReserves,
+} from "@/utility functions/swap/SingleSwap";
 import roundDown from "@/utility functions/miscellanous/round-down";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import SwapButton from "@/reusable components/swap components/swap-button";
+import toastInvoker from "@/utility functions/miscellanous/toast-invoker";
 
 const Swap = () => {
   const { mode, appData, isOnChain, balance, providerState, isConnected } =
@@ -38,7 +42,6 @@ const Swap = () => {
   const [popUp, setModal] = useState(false);
   const [settingsPopup, setPopUp] = useState(false);
   const [order, setOrder] = useState(null);
-  const [buttonState, setButtonState] = useState("");
 
   useEffect(() => {
     const roundBalance = roundDown(balance.fullBalance);
@@ -53,8 +56,12 @@ const Swap = () => {
   }, [appData.walletAddress, isOnChain, isConnected, balance.fullBalance]);
 
   const fetchAmount = async (e) => {
+    if (isOnChain === false) {
+      toastInvoker("warning", "Wrong Chain", "Switch to the right chain");
+      return;
+    }
     const { target } = e;
-    if (target.value == "firstTokenAmount") {
+    if (target.name == "secondTokenAmount") {
       if (target.value == "" || target.value == null) {
         setTokenAmount({
           ...tokenAmount,
@@ -99,7 +106,9 @@ const Swap = () => {
         secondTokenFullAmount: amount,
       });
     }
-    setButtonState("ready");
+  };
+  const fetchReserves = () => {
+    getReserves(firstToken.addy, secondToken.addy, providerState);
   };
   return (
     <>
@@ -180,7 +189,10 @@ const Swap = () => {
               <span className="">5%</span>
             </div>
             <section className="">
-              <SwapButton buttonState={buttonState} />
+              <SwapButton
+                fetchReserves={fetchReserves}
+                tokenAmount={tokenAmount}
+              />
             </section>
           </div>
         </section>

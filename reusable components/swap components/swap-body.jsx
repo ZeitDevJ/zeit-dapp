@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import roundDown from "@/utility functions/miscellanous/round-down";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
+import toastInvoker from "@/utility functions/miscellanous/toast-invoker";
 
 const SwapBody = memo(
   ({
@@ -22,7 +23,7 @@ const SwapBody = memo(
     setOrder,
     fetchAmount,
   }) => {
-    const { providerState, appData, balance } = useData();
+    const { providerState, appData, balance, isOnChain } = useData();
     const handleSwitch = async () => {
       setStat(true);
       if (secondToken.addy === "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9") {
@@ -71,6 +72,14 @@ const SwapBody = memo(
 
     const calcAmount = async (argument) => {
       const balance = argument.toString();
+      if (balance == "0" || balance == null) {
+        setTokenAmount((previous) => ({
+          ...previous,
+          secondTokenAmount: 0,
+          secondTokenFullAmount: 0,
+        }));
+        return;
+      }
       const convertedInput = convertToWEI(balance);
       const amount = await getAmountsOut(
         providerState,
@@ -86,6 +95,11 @@ const SwapBody = memo(
       }));
     };
     const handlePercentageClick = (argument) => {
+      if (!isOnChain) {
+        toastInvoker("warning", "Wrong Chain", "Switch to the right chain");
+        return;
+      }
+
       switch (argument) {
         case "25":
           setTokenAmount({
