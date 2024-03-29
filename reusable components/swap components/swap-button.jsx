@@ -13,8 +13,10 @@ const SwapButton = memo(({ tokenAmount, fetchReserves }) => {
   } else {
     if (
       firstTokenAmount !== null &&
+      firstTokenAmount != "0" &&
       firstTokenAmount !== "" &&
       secondTokenAmount !== null &&
+      secondTokenAmount != "0" &&
       secondTokenAmount !== ""
     ) {
       return (

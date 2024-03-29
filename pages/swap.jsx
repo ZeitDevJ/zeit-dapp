@@ -15,6 +15,7 @@ import roundDown from "@/utility functions/miscellanous/round-down";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import SwapButton from "@/reusable components/swap components/swap-button";
 import toastInvoker from "@/utility functions/miscellanous/toast-invoker";
+import QuoteModal from "@/reusable components/widgets/modals/quote-modal";
 
 const Swap = () => {
   const { mode, appData, isOnChain, balance, providerState, isConnected } =
@@ -41,6 +42,7 @@ const Swap = () => {
   const [rotateStat, setStat] = useState(false);
   const [popUp, setModal] = useState(false);
   const [settingsPopup, setPopUp] = useState(false);
+  const [quotePopup, setQuotePopup] = useState(true);
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
@@ -208,6 +210,7 @@ const Swap = () => {
         setSymbol={setSymbol}
       />
       <Settings popUp={settingsPopup} setPopUp={setPopUp} />
+      <QuoteModal popUp={quotePopup} setPopUp={setQuotePopup} />
     </>
   );
 };

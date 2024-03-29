@@ -91,7 +91,18 @@ input::-webkit-inner-spin-button {
 .move-margin {
   margin-right: 50px !important;
 }
-
+.color-change-anim {
+  animation: color-change 4s linear infinite;
+}
+@keyframes color-change {
+  0%,
+  100% {
+    color: #424242;
+  }
+  50% {
+    color: #53afad;
+  }
+}
 /* basic styles */
 
 /* Buttons  */
