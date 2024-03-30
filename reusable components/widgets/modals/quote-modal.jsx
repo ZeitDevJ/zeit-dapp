@@ -33,7 +33,7 @@ const QuoteModal = memo(
                 {firstToken.name ? firstToken?.name : "null"}
               </p>
             </div>
-            <p className="smsbold font-generic text-[#F36960]">
+            <p className="smsbold w-fit mx-auto font-generic text-[#F36960]">
               {tokenAmount ? tokenAmount?.firstTokenAmount : null}
             </p>
           </div>
@@ -47,7 +47,7 @@ const QuoteModal = memo(
                 {secondToken.name ? secondToken?.name : "null"}
               </p>
             </div>
-            <p className="smsbold font-generic text-[#53AFAD]">
+            <p className="smsbold w-fit mx-auto font-generic text-[#53AFAD]">
               {rtPrice ? rtPrice?.roundFour : null}
             </p>
           </div>
@@ -65,7 +65,7 @@ const QuoteModal = memo(
               </div>
               <p className="font-generic tsmreg text-white">
                 1 {firstToken.name ? firstToken?.name : "null"} ≈{" "}
-                {rtPrice.roundFour ? rtPrice?.roundFour : null}{" "}
+                {rtPrice.perOne ? rtPrice?.perOne : null}{" "}
                 {secondToken.name ? secondToken?.name : "null"}
               </p>
             </div>
@@ -73,13 +73,19 @@ const QuoteModal = memo(
               <p className="font-generic tsmmed text-[#fff] items-center">
                 Fee
               </p>
-              <p className="font-generic tsmreg text-white">0.00365 ETH</p>
+              <p className="font-generic tsmreg text-white">
+                {rtPrice.fee ? rtPrice?.fee : null}{" "}
+                {firstToken.name ? firstToken?.name : "null"}
+              </p>
             </div>
             <div className="flex justify-between">
               <p className="font-generic tsmmed text-[#fff] items-center">
                 Minimum recieved
               </p>
-              <p className="font-generic tsmreg text-white">125.90 USDC</p>
+              <p className="font-generic tsmreg text-white">
+                {tokenAmount ? tokenAmount?.firstTokenAmount : null}{" "}
+                {firstToken.name ? firstToken?.name : "null"}
+              </p>
             </div>
           </div>
           <div className="">

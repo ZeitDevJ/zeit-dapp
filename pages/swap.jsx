@@ -197,6 +197,7 @@ const Swap = () => {
                 setRtPrice={setRtPrice}
                 firstToken={firstToken}
                 secondToken={secondToken}
+                rtPrice={rtPrice}
               />
             </section>
           </div>

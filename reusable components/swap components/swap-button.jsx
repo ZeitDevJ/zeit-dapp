@@ -1,14 +1,27 @@
 import { useData } from "@/context/DataContext";
+import calculateFee from "@/utility functions/miscellanous/fee-calculator";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
+import {
+  roundDown,
+  roundUpTo4DecimalPlaces,
+} from "@/utility functions/miscellanous/round-figures";
 import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
 import { memo } from "react";
 
 const SwapButton = memo(
-  ({ tokenAmount, setQuotePopup, setRtPrice, firstToken, secondToken }) => {
+  ({
+    tokenAmount,
+    setQuotePopup,
+    setRtPrice,
+    firstToken,
+    secondToken,
+    rtPrice,
+  }) => {
     const { firstTokenAmount, secondTokenAmount } = tokenAmount;
     const { isConnected, providerState } = useData();
-    const payload = convertToWEI(firstToken.tokenBalance);
     const prepareQuote = async () => {
+      const payload = convertToWEI(firstTokenAmount);
+      const payloadUnit = convertToWEI(1);
       setQuotePopup(true);
       const data = await getAmountsOut(
         providerState,
@@ -16,7 +29,23 @@ const SwapButton = memo(
         firstToken.addy,
         secondToken.addy
       );
-      console.log(data);
+      const dataUnit = await getAmountsOut(
+        providerState,
+        payloadUnit,
+        firstToken.addy,
+        secondToken.addy
+      );
+
+      const roundedData = roundUpTo4DecimalPlaces(data);
+      const roundedUnit = roundDown(dataUnit);
+      const feeOnSwap = calculateFee(firstTokenAmount);
+      setRtPrice({
+        ...rtPrice,
+        roundFour: roundedData,
+        fee: feeOnSwap,
+        real: data,
+        perOne: roundedUnit,
+      });
     };
     if (isConnected !== true) {
       return (
