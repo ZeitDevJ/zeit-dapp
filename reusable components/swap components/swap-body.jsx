@@ -3,7 +3,7 @@ import Input from "../inputs/swap-input";
 import { ReactSVG } from "react-svg";
 import { useData } from "@/context/DataContext";
 import { ethers } from "ethers";
-import roundDown from "@/utility functions/miscellanous/round-down";
+import { roundDown } from "@/utility functions/miscellanous/round-figures";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
 import toastInvoker from "@/utility functions/miscellanous/toast-invoker";

@@ -7,11 +7,8 @@ import TokenSelect from "@/reusable components/widgets/modals/token-select";
 import { ReactSVG } from "react-svg";
 import Settings from "@/reusable components/widgets/modals/settings";
 import E20ABI from "@/data/ERC20-token-abi";
-import {
-  getAmountsOut,
-  getReserves,
-} from "@/utility functions/swap/SingleSwap";
-import roundDown from "@/utility functions/miscellanous/round-down";
+import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
+import { roundDown } from "@/utility functions/miscellanous/round-figures";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import SwapButton from "@/reusable components/swap components/swap-button";
 import toastInvoker from "@/utility functions/miscellanous/toast-invoker";
@@ -39,10 +36,16 @@ const Swap = () => {
     secondTokenAmount: "",
     secondTokenFullAmount: "",
   });
+  const [rtPrice, setRtPrice] = useState({
+    roundFour: null,
+    fee: null,
+    real: null,
+    perOne: null,
+  });
   const [rotateStat, setStat] = useState(false);
   const [popUp, setModal] = useState(false);
   const [settingsPopup, setPopUp] = useState(false);
-  const [quotePopup, setQuotePopup] = useState(true);
+  const [quotePopup, setQuotePopup] = useState(false);
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
@@ -108,9 +111,6 @@ const Swap = () => {
         secondTokenFullAmount: amount,
       });
     }
-  };
-  const fetchReserves = () => {
-    getReserves(firstToken.addy, secondToken.addy, providerState);
   };
   return (
     <>
@@ -192,8 +192,11 @@ const Swap = () => {
             </div>
             <section className="">
               <SwapButton
-                fetchReserves={fetchReserves}
                 tokenAmount={tokenAmount}
+                setQuotePopup={setQuotePopup}
+                setRtPrice={setRtPrice}
+                firstToken={firstToken}
+                secondToken={secondToken}
               />
             </section>
           </div>
@@ -210,7 +213,14 @@ const Swap = () => {
         setSymbol={setSymbol}
       />
       <Settings popUp={settingsPopup} setPopUp={setPopUp} />
-      <QuoteModal popUp={quotePopup} setPopUp={setQuotePopup} />
+      <QuoteModal
+        firstToken={firstToken}
+        secondToken={secondToken}
+        popUp={quotePopup}
+        setPopUp={setQuotePopup}
+        tokenAmount={tokenAmount}
+        rtPrice={rtPrice}
+      />
     </>
   );
 };

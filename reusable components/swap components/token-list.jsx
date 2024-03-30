@@ -2,7 +2,7 @@ import { useState, useEffect, memo } from "react";
 import { ethers } from "ethers";
 import { useData } from "@/context/DataContext";
 import { coinInfo } from "@/data/constants";
-import roundDown from "@/utility functions/miscellanous/round-down";
+import { roundDown } from "@/utility functions/miscellanous/round-figures";
 
 const TokenList = memo(({ selectToken }) => {
   const { providerState, appData, isOnChain, balance } = useData();

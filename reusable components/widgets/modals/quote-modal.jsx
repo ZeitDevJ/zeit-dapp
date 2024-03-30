@@ -1,37 +1,104 @@
 import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
 import { ReactSVG } from "react-svg";
+import { memo } from "react";
 
-const QuoteModal = ({ popUp, setPopUp }) => {
-  const { mode } = useData();
-  return (
-    <ModalSkeleton width="max-w-[402px]" popUp={popUp}>
-      <section className="p-[16px]">
-        <div className="flex mb-[32px] text-black w-full justify-between">
-          <p
-            className={` font-generic smsbold ${
-              mode ? "text-[#000]" : "text-white"
-            } `}
-          >
-            Confirm swap
-          </p>
-          <button onClick={() => setPopUp(false)}>
-            <ReactSVG src="/images/swap/close.svg" />
-          </button>
-        </div>
-        <div className="w-fit mx-auto mb-[32px]">
-          <div className="flex flex-row mb-[8px] gap-[8px]">
-            <figure className="">{/* token icon here */}</figure>
-            <p className="smsbold font-generic text-[#364152]">LSDc</p>
+const QuoteModal = memo(
+  ({ popUp, setPopUp, firstToken, secondToken, tokenAmount, rtPrice }) => {
+    const { mode } = useData();
+    return (
+      <ModalSkeleton
+        marginTop="top-[5vh]"
+        width="max-w-[527px]"
+        padding="0px"
+        popUp={popUp}
+      >
+        <section className="p-[32px]">
+          <div className="flex mb-[32px] text-black w-full justify-between">
+            <p
+              className={` font-generic smsbold ${
+                mode ? "text-[#000]" : "text-white"
+              } `}
+            >
+              Confirm swap
+            </p>
+            <button onClick={() => setPopUp(false)}>
+              <ReactSVG src="/images/swap/close.svg" />
+            </button>
           </div>
-          <p className="smsbold font-generic text-[#F36960]">128.73</p>
-        </div>
-        <figure className="react-svg w-fit color-change-anim mx-auto">
-          <ReactSVG src="/images/modal/zeit.svg" />
-        </figure>
-      </section>
-    </ModalSkeleton>
-  );
-};
+          <div className="w-fit mx-auto mb-[32px]">
+            <div className="flex w-fit mx-auto mb-[8px] gap-[8px]">
+              {/* <figure className="">token icon here</figure> */}
+              <p className="smsbold font-generic text-[#364152]">
+                {firstToken.name ? firstToken?.name : "null"}
+              </p>
+            </div>
+            <p className="smsbold font-generic text-[#F36960]">
+              {tokenAmount ? tokenAmount?.firstTokenAmount : null}
+            </p>
+          </div>
+          <figure className="react-svg w-fit color-change-anim mx-auto">
+            <ReactSVG src="/images/modal/zeit.svg" />
+          </figure>
+          <div className="w-fit mx-auto my-[32px]">
+            <div className="flex w-fit mx-auto mb-[8px] gap-[8px]">
+              {/* <figure className="">token icon here</figure> */}
+              <p className="smsbold font-generic text-[#364152]">
+                {secondToken.name ? secondToken?.name : "null"}
+              </p>
+            </div>
+            <p className="smsbold font-generic text-[#53AFAD]">
+              {rtPrice ? rtPrice?.roundFour : null}
+            </p>
+          </div>
+        </section>
+        <section className="bg-[#5BC0BE]  pt-[16px] px-[32px] pb-[32px]">
+          <div className="bg-[#7CCDCB] mb-[16px] py-[8px] px-[6px] rounded-[16px]">
+            <div className="flex mb-[8px] justify-between">
+              <div className="flex gap-[8px]">
+                <p className="font-generic tsmmed text-[#fff] items-center">
+                  Price
+                </p>
+                <button className="text-[#374857] react-svg">
+                  <ReactSVG src="/images/widgets/refresh.svg" />
+                </button>
+              </div>
+              <p className="font-generic tsmreg text-white">
+                1 {firstToken.name ? firstToken?.name : "null"} ≈{" "}
+                {rtPrice.roundFour ? rtPrice?.roundFour : null}{" "}
+                {secondToken.name ? secondToken?.name : "null"}
+              </p>
+            </div>
+            <div className="flex mb-[8px] justify-between">
+              <p className="font-generic tsmmed text-[#fff] items-center">
+                Fee
+              </p>
+              <p className="font-generic tsmreg text-white">0.00365 ETH</p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-generic tsmmed text-[#fff] items-center">
+                Minimum recieved
+              </p>
+              <p className="font-generic tsmreg text-white">125.90 USDC</p>
+            </div>
+          </div>
+          <div className="">
+            <button className="tetiary-btn w-full py-[10px] rounded-[8px] tmdsbold font-generic">
+              Approve token spend
+            </button>
+          </div>
+          <div className="mt-[16px]">
+            <button
+              disabled
+              className="w-full medium-btn default-btn py-[10px] rounded-[8px] tmdsbold font-generic"
+            >
+              Swap
+            </button>
+          </div>
+        </section>
+      </ModalSkeleton>
+    );
+  }
+);
 
 export default QuoteModal;
