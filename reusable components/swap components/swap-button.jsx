@@ -1,4 +1,5 @@
 import { useData } from "@/context/DataContext";
+import calculateMinimumAmountReceived from "@/utility functions/general/get-minimum-amount";
 import calculateFee from "@/utility functions/miscellanous/fee-calculator";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import {
@@ -39,6 +40,8 @@ const SwapButton = memo(
       const roundedData = roundUpTo4DecimalPlaces(data);
       const roundedUnit = roundDown(dataUnit);
       const feeOnSwap = calculateFee(firstTokenAmount);
+      const slippage = 2;
+      calculateMinimumAmountReceived(data, slippage);
       setRtPrice({
         ...rtPrice,
         roundFour: roundedData,

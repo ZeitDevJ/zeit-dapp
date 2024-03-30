@@ -11,10 +11,15 @@ const convertToWEI = (amount) => {
   if (strngAmount == "0") {
     return 0;
   }
-  return ethers.utils.parseEther(strngAmount);
+  const { _hex } = ethers.utils.parseEther(strngAmount);
+  return _hex;
 };
 const convertToBalance = (amount) => {
-  return ethers.utils.formatEther(amount);
+  if (!amount[1]._isBigNumber) {
+    return amount[1]._hex;
+  } else {
+    return ethers.utils.formatEther(amount[1]._hex);
+  }
 };
 
 export { convertToBalance, convertToWEI };
