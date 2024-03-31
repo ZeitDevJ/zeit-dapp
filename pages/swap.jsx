@@ -7,7 +7,10 @@ import TokenSelect from "@/reusable components/widgets/modals/token-select";
 import { ReactSVG } from "react-svg";
 import Settings from "@/reusable components/widgets/modals/settings";
 import E20ABI from "@/data/ERC20-token-abi";
-import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
+import {
+  getAmountsOut,
+  getAmountsIn,
+} from "@/utility functions/swap/SingleSwap";
 import { roundDown } from "@/utility functions/miscellanous/round-figures";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 import SwapButton from "@/reusable components/swap components/swap-button";
@@ -76,7 +79,7 @@ const Swap = () => {
         return;
       }
       const convertedInput = convertToWEI(target.value);
-      const amount = await getAmountsOut(
+      const amount = await getAmountsIn(
         providerState,
         convertedInput,
         firstToken.addy,

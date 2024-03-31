@@ -14,6 +14,17 @@ const getAmountsOut = async (
   const data = await Contract.getAmountsOut(amountIn, [addressFrom, addressTo]);
   return convertToBalance(data);
 };
+const getAmountsIn = async (
+  providerState,
+  amountOut,
+  addressTo,
+  addressFrom
+) => {
+  const Contract = new ethers.Contract(routerAddress, routerABI, providerState);
+  const data = await Contract.getAmountsIn(amountOut, [addressTo, addressFrom]);
+  console.log("data", convertToBalance(data, true));
+  return convertToBalance(data, true);
+};
 const getReserves = async (tokenA, tokenB, providerState) => {
   const Contract = new ethers.Contract(
     factoryAddress,
@@ -23,4 +34,4 @@ const getReserves = async (tokenA, tokenB, providerState) => {
   const data = await Contract.getReserves(factoryAddress, tokenA, tokenB);
   console.log(data);
 };
-export { getAmountsOut, getReserves };
+export { getAmountsOut, getReserves, getAmountsIn };

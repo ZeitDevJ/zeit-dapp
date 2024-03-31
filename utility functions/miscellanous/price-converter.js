@@ -14,11 +14,19 @@ const convertToWEI = (amount) => {
   const { _hex } = ethers.utils.parseEther(strngAmount);
   return _hex;
 };
-const convertToBalance = (amount) => {
-  if (!amount[1]._isBigNumber) {
-    return amount[1]._hex;
+const convertToBalance = (amount, param) => {
+  if (param) {
+    if (!amount[0]._isBigNumber) {
+      return amount[0]._hex;
+    } else {
+      return ethers.utils.formatEther(amount[0]._hex);
+    }
   } else {
-    return ethers.utils.formatEther(amount[1]._hex);
+    if (!amount[1]._isBigNumber) {
+      return amount[1]._hex;
+    } else {
+      return ethers.utils.formatEther(amount[1]._hex);
+    }
   }
 };
 
