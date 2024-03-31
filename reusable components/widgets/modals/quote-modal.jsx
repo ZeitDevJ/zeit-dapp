@@ -79,7 +79,7 @@ const QuoteModal = memo(
                 Fee
               </p>
               <p className="font-generic tsmreg text-white">
-                {rtPrice.fee ? rtPrice?.fee : null}{" "}
+                ≈ {rtPrice.fee ? rtPrice?.fee : 0}{" "}
                 {firstToken.name ? firstToken?.name : "null"}
               </p>
             </div>

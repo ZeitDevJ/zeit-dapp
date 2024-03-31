@@ -29,6 +29,7 @@ const SwapButton = memo(
 
       const roundedUnit = roundDown(dataUnit, 2);
       const feeOnSwap = roundDown(calculateFee(firstTokenAmount), 4);
+      console.log(feeOnSwap);
       const slippage = 2;
       const { minimumAmountReceived, roundedValue } =
         calculateMinimumAmountReceived(
