@@ -55,6 +55,13 @@ const SwapBody = memo(
         addy: firstToken.addy,
         abi: firstToken.abi,
       });
+      setTokenAmount({
+        ...tokenAmount,
+        firstTokenAmount: tokenAmount.secondTokenAmount,
+        firstTokenFullAmount: tokenAmount.secondTokenFullAmount,
+        secondTokenAmount: tokenAmount.firstTokenAmount,
+        secondTokenFullAmount: tokenAmount.firstTokenFullAmount,
+      });
       setTimeout(() => setStat(false), 500);
       setSymbol(secondToken.name + firstToken.name);
     };
