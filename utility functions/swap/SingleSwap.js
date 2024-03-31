@@ -3,7 +3,7 @@ import routerABI from "@/data/router-abi";
 import { factoryAddress, routerAddress } from "@/data/constants";
 import { convertToBalance } from "../miscellanous/price-converter";
 import factoryABI from "@/data/factory-abi";
-
+// try catch here
 const getAmountsOut = async (
   providerState,
   amountIn,

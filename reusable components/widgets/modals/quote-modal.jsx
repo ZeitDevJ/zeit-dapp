@@ -1,6 +1,7 @@
 import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
 import { ReactSVG } from "react-svg";
+import { roundDown } from "@/utility functions/miscellanous/round-figures";
 import { memo } from "react";
 
 const QuoteModal = memo(
@@ -34,7 +35,9 @@ const QuoteModal = memo(
               </p>
             </div>
             <p className="smsbold w-fit mx-auto font-generic text-[#F36960]">
-              {tokenAmount ? tokenAmount?.firstTokenAmount : null}
+              {tokenAmount.firstTokenFullAmount
+                ? roundDown(tokenAmount?.firstTokenFullAmount, 4)
+                : tokenAmount.firstTokenAmount}
             </p>
           </div>
           <figure className="react-svg w-fit color-change-anim mx-auto">
@@ -48,7 +51,9 @@ const QuoteModal = memo(
               </p>
             </div>
             <p className="smsbold w-fit mx-auto font-generic text-[#53AFAD]">
-              {rtPrice ? rtPrice?.roundFour : null}
+              {tokenAmount.secondTokenFullAmount
+                ? roundDown(tokenAmount.secondTokenFullAmount, 4)
+                : tokenAmount.secondTokenAmount}
             </p>
           </div>
         </section>
@@ -83,24 +88,36 @@ const QuoteModal = memo(
                 Minimum recieved
               </p>
               <p className="font-generic tsmreg text-white">
-                {tokenAmount ? tokenAmount?.firstTokenAmount : null}{" "}
-                {firstToken.name ? firstToken?.name : "null"}
+                {rtPrice ? rtPrice?.minimumRecievedRound : null}{" "}
+                {tokenAmount.firstTokenFullAmount
+                  ? firstToken?.name
+                  : secondToken?.name}
               </p>
             </div>
           </div>
-          <div className="">
-            <button className="tetiary-btn w-full py-[10px] rounded-[8px] tmdsbold font-generic">
-              Approve token spend
-            </button>
-          </div>
-          <div className="mt-[16px]">
-            <button
-              disabled
-              className="w-full medium-btn default-btn py-[10px] rounded-[8px] tmdsbold font-generic"
-            >
-              Swap
-            </button>
-          </div>
+          {firstToken.addy !== "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9" ? (
+            <>
+              <div className="">
+                <button className="tetiary-btn w-full py-[10px] rounded-[8px] tmdsbold font-generic">
+                  Approve token spend
+                </button>
+              </div>
+              <div className="mt-[16px]">
+                <button
+                  disabled
+                  className="w-full medium-btn default-btn py-[10px] rounded-[8px] tmdsbold font-generic"
+                >
+                  Swap
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="mt-[16px]">
+              <button className="w-full medium-btn tetiary-btn py-[10px] rounded-[8px] tmdsbold font-generic">
+                Swap
+              </button>
+            </div>
+          )}
         </section>
       </ModalSkeleton>
     );

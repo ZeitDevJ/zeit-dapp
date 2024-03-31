@@ -92,6 +92,7 @@ const SwapBody = memo(
         ...previous,
         secondTokenAmount: roundAmount,
         secondTokenFullAmount: amount,
+        firstTokenFullAmount: null,
       }));
     };
     const handlePercentageClick = (argument) => {

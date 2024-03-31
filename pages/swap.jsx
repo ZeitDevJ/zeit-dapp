@@ -40,10 +40,11 @@ const Swap = () => {
     secondTokenFullAmount: "",
   });
   const [rtPrice, setRtPrice] = useState({
-    roundFour: null,
     fee: null,
-    real: null,
     perOne: null,
+    isNative: null,
+    minimumRecieved: null,
+    minimumRecievedRound: null,
   });
   const [rotateStat, setStat] = useState(false);
   const [popUp, setModal] = useState(false);
@@ -89,7 +90,8 @@ const Swap = () => {
       setTokenAmount({
         ...tokenAmount,
         firstTokenAmount: roundAmount,
-        firstFullAmount: amount,
+        firstTokenFullAmount: amount,
+        secondTokenFullAmount: null,
       });
     } else {
       if (target.value == "" || target.value == null) {
@@ -112,6 +114,7 @@ const Swap = () => {
         ...tokenAmount,
         secondTokenAmount: roundAmount,
         secondTokenFullAmount: amount,
+        firstTokenFullAmount: null,
       });
     }
   };

@@ -2,10 +2,7 @@ import { useData } from "@/context/DataContext";
 import calculateMinimumAmountReceived from "@/utility functions/general/get-minimum-amount";
 import calculateFee from "@/utility functions/miscellanous/fee-calculator";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
-import {
-  roundDown,
-  roundUpTo4DecimalPlaces,
-} from "@/utility functions/miscellanous/round-figures";
+import { roundDown } from "@/utility functions/miscellanous/round-figures";
 import { getAmountsOut } from "@/utility functions/swap/SingleSwap";
 import { memo } from "react";
 
@@ -21,33 +18,29 @@ const SwapButton = memo(
     const { firstTokenAmount, secondTokenAmount } = tokenAmount;
     const { isConnected, providerState } = useData();
     const prepareQuote = async () => {
-      const payload = convertToWEI(firstTokenAmount);
       const payloadUnit = convertToWEI(1);
       setQuotePopup(true);
-      const data = await getAmountsOut(
-        providerState,
-        payload,
-        firstToken.addy,
-        secondToken.addy
-      );
       const dataUnit = await getAmountsOut(
         providerState,
         payloadUnit,
-        firstToken.addy,
-        secondToken.addy
+        secondToken.addy,
+        firstToken.addy
       );
 
-      const roundedData = roundUpTo4DecimalPlaces(data);
       const roundedUnit = roundDown(dataUnit, 2);
-      const feeOnSwap = calculateFee(firstTokenAmount);
+      const feeOnSwap = roundDown(calculateFee(firstTokenAmount), 4);
       const slippage = 2;
-      calculateMinimumAmountReceived(data, slippage);
+      const { minimumAmountReceived, roundedValue } =
+        calculateMinimumAmountReceived(
+          tokenAmount.firstTokenFullAmount || tokenAmount.secondTokenFullAmount,
+          slippage
+        );
       setRtPrice({
         ...rtPrice,
-        roundFour: roundedData,
         fee: feeOnSwap,
-        real: data,
         perOne: roundedUnit,
+        minimumRecieved: minimumAmountReceived,
+        minimumRecievedRound: roundedValue,
       });
     };
     if (isConnected !== true) {
