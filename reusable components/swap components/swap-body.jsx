@@ -27,7 +27,7 @@ const SwapBody = memo(
     const handleSwitch = async () => {
       setStat(true);
       if (secondToken.addy === "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9") {
-        const roundBal = roundDown(balance.fullBalance);
+        const roundBal = roundDown(balance.fullBalance, 2);
         setFirstToken({
           name: secondToken.name,
           addy: secondToken.addy,
@@ -41,7 +41,7 @@ const SwapBody = memo(
           providerState
         );
         const data = await Contract.balanceOf(appData.walletAddress);
-        const roundBal = roundDown(ethers.utils.formatEther(data));
+        const roundBal = roundDown(ethers.utils.formatEther(data), 2);
 
         setFirstToken({
           name: secondToken.name,
@@ -84,10 +84,10 @@ const SwapBody = memo(
       const amount = await getAmountsOut(
         providerState,
         convertedInput,
-        firstToken.addy,
-        secondToken.addy
+        secondToken.addy,
+        firstToken.addy
       );
-      const roundAmount = roundDown(amount);
+      const roundAmount = roundDown(amount, 2);
       setTokenAmount((previous) => ({
         ...previous,
         secondTokenAmount: roundAmount,

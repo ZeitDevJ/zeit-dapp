@@ -16,11 +16,11 @@ const TokenList = memo(({ selectToken }) => {
           const Contract = new ethers.Contract(address, abi, providerState);
           if (appData.walletAddress && isOnChain) {
             if (address == "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9") {
-              const roundBal = roundDown(balance.fullBalance);
+              const roundBal = roundDown(balance.fullBalance, 2);
               balances[id] = roundBal;
             } else {
               const data = await Contract.balanceOf(appData.walletAddress);
-              const roundBal = roundDown(ethers.utils.formatEther(data));
+              const roundBal = roundDown(ethers.utils.formatEther(data), 2);
               if (roundBal === 0) {
                 balances[id] = "0";
               } else {

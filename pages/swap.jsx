@@ -52,7 +52,7 @@ const Swap = () => {
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    const roundBalance = roundDown(balance.fullBalance);
+    const roundBalance = roundDown(balance.fullBalance, 2);
     const fetchTokenBalances = async () => {
       if (!appData.walletAddress && !isOnChain && !isConnected) return;
       setFirstToken({
@@ -85,7 +85,7 @@ const Swap = () => {
         firstToken.addy,
         secondToken.addy
       );
-      const roundAmount = roundDown(amount);
+      const roundAmount = roundDown(amount, 2);
       setTokenAmount({
         ...tokenAmount,
         firstTokenAmount: roundAmount,
@@ -107,7 +107,7 @@ const Swap = () => {
         secondToken.addy,
         firstToken.addy
       );
-      const roundAmount = roundDown(amount);
+      const roundAmount = roundDown(amount, 2);
       setTokenAmount({
         ...tokenAmount,
         secondTokenAmount: roundAmount,

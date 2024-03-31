@@ -5,7 +5,7 @@ function calculateMinimumAmountReceived(initialValue, slippageTolerance) {
   const maxSlippage = initialValue * percentageSlippage;
 
   const minimumAmountReceived = initialValue - maxSlippage;
-  const roundedValue = roundDown(minimumAmountReceived);
+  const roundedValue = roundDown(minimumAmountReceived, 2);
   return { minimumAmountReceived, roundedValue };
 }
 
