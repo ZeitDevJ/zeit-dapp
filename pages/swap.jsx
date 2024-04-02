@@ -51,6 +51,9 @@ const Swap = () => {
   const [settingsPopup, setPopUp] = useState(false);
   const [quotePopup, setQuotePopup] = useState(false);
   const [order, setOrder] = useState(null);
+  const [approveInfo, setApproveInfo] = useState(false);
+  const [slippageInfo, setSlippageInfo] = useState(0.1);
+  const [appState, setAppState] = useState();
 
   useEffect(() => {
     const roundBalance = roundDown(balance.fullBalance, 2);
@@ -204,6 +207,8 @@ const Swap = () => {
                 firstToken={firstToken}
                 secondToken={secondToken}
                 rtPrice={rtPrice}
+                setApproveInfo={setApproveInfo}
+                slippageInfo={slippageInfo}
               />
             </section>
           </div>
@@ -227,6 +232,7 @@ const Swap = () => {
         setPopUp={setQuotePopup}
         tokenAmount={tokenAmount}
         rtPrice={rtPrice}
+        approveInfo={approveInfo}
       />
     </>
   );

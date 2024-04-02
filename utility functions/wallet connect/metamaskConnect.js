@@ -13,9 +13,11 @@ const metamaskConnect = async (
   setBalance,
   setPopUp,
   setSignerState,
-  setProviderState
+  setProviderState,
+  setLoadState
 ) => {
   if (typeof window != undefined && typeof window.ethereum != "undefined") {
+    setLoadState(true);
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.send("eth_requestAccounts", []);
@@ -38,7 +40,7 @@ const metamaskConnect = async (
         toastInvoker(
           "warning",
           "Wrong Network!",
-          "I have detected you're on a wrong chain, kindly change it to continue!"
+          "Wrong network, change to continue!"
         );
       } else {
         const fetchedBal = await getBalance(account);
@@ -50,14 +52,36 @@ const metamaskConnect = async (
         });
         setIsOnChain(true);
       }
+      setLoadState(false);
     } catch (error) {
-      // deal with error here well
-      // user declined request basically.....
+      if (error.code == 4001) {
+        toastInvoker("danger", "Rejected!", error.message);
+      } else if (error.code == -32002) {
+        toastInvoker(
+          "warning",
+          "Request queued",
+          "Check your wallet to connect!"
+        );
+      } else {
+        toastInvoker(
+          "danger",
+          "Poor Network!",
+          "Check your internet connection!"
+        );
+        setLoadState(false);
+      }
     }
   } else {
-    // deal with error here well
-    // tell them they have no metamask?
-    // take users to download metaask?
+    toastInvoker(
+      "warning",
+      "Wallet not found",
+      "We didn't find any wallet in browser"
+    );
+    window.open(
+      "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+      "_blank"
+    );
+    setLoadState(false);
   }
 };
 

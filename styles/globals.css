@@ -92,7 +92,7 @@ input::-webkit-inner-spin-button {
   margin-right: 50px !important;
 }
 .color-change-anim {
-  animation: color-change 4s linear infinite;
+  animation: color-change 2s linear infinite;
 }
 @keyframes color-change {
   0%,
@@ -103,6 +103,31 @@ input::-webkit-inner-spin-button {
     color: #53afad;
   }
 }
+.color-change-top {
+  animation: top-change 2s linear infinite;
+}
+@keyframes top-change {
+  0%,
+  100% {
+    color: #424242;
+  }
+  50% {
+    color: #5bc0be;
+  }
+}
+.color-change-bottom {
+  animation: bottom-change 2s linear infinite;
+}
+@keyframes bottom-change {
+  0%,
+  100% {
+    color: #5bc0be;
+  }
+  50% {
+    color: #424242;
+  }
+}
+
 /* basic styles */
 
 /* Buttons  */

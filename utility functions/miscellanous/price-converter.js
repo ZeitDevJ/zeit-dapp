@@ -29,5 +29,7 @@ const convertToBalance = (amount, param) => {
     }
   }
 };
-
-export { convertToBalance, convertToWEI };
+const convertToBalanceTwo = (amount) => {
+  return ethers.utils.formatEther(amount._hex);
+};
+export { convertToBalance, convertToWEI, convertToBalanceTwo };

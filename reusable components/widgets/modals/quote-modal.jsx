@@ -2,11 +2,27 @@ import { useData } from "@/context/DataContext";
 import ModalSkeleton from "./modal-skeleton";
 import { ReactSVG } from "react-svg";
 import { roundDown } from "@/utility functions/miscellanous/round-figures";
-import { memo } from "react";
+import { memo, useState } from "react";
+import approveSpend from "@/utility functions/general/approve-token-spend";
+import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
 
 const QuoteModal = memo(
-  ({ popUp, setPopUp, firstToken, secondToken, tokenAmount, rtPrice }) => {
-    const { mode } = useData();
+  ({
+    popUp,
+    setPopUp,
+    firstToken,
+    secondToken,
+    tokenAmount,
+    rtPrice,
+    approveInfo,
+  }) => {
+    const { mode, signerState } = useData();
+    const [approved, setApproval] = useState(false);
+
+    const spend = async () => {
+      const amt = convertToWEI(tokenAmount.firstTokenAmount);
+      await approveSpend(signerState, firstToken.addy, amt);
+    };
     return (
       <ModalSkeleton
         marginTop="top-[5vh]"
@@ -70,8 +86,8 @@ const QuoteModal = memo(
               </div>
               <p className="font-generic tsmreg text-white">
                 1 {firstToken.name ? firstToken?.name : "null"} ≈{" "}
-                {rtPrice.perOne ? rtPrice?.perOne : null}{" "}
-                {secondToken.name ? secondToken?.name : "null"}
+                {rtPrice.perOne ? rtPrice?.perOne : 0}{" "}
+                {secondToken.name ? secondToken?.name : 0}
               </p>
             </div>
             <div className="flex mb-[8px] justify-between">
@@ -88,24 +104,29 @@ const QuoteModal = memo(
                 Minimum recieved
               </p>
               <p className="font-generic tsmreg text-white">
-                {rtPrice ? rtPrice?.minimumRecievedRound : null}{" "}
-                {tokenAmount.firstTokenFullAmount
-                  ? firstToken?.name
-                  : secondToken?.name}
+                {rtPrice.minimumRecievedRound
+                  ? rtPrice?.minimumRecievedRound
+                  : 0}{" "}
+                {secondToken.name ? secondToken?.name : 0}
               </p>
             </div>
           </div>
           {firstToken.addy !== "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9" ? (
             <>
-              <div className="">
-                <button className="tetiary-btn w-full py-[10px] rounded-[8px] tmdsbold font-generic">
-                  Approve token spend
-                </button>
-              </div>
+              {approveInfo ? null : (
+                <div className="">
+                  <button
+                    onClick={spend}
+                    className="tetiary-btn w-full py-[10px] rounded-[8px] tmdsbold font-generic"
+                  >
+                    Approve token spend
+                  </button>
+                </div>
+              )}
               <div className="mt-[16px]">
                 <button
                   disabled
-                  className="w-full medium-btn default-btn py-[10px] rounded-[8px] tmdsbold font-generic"
+                  className="w-full medium-btn tetiary-btn py-[10px] rounded-[8px] tmdsbold font-generic"
                 >
                   Swap
                 </button>

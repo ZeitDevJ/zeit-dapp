@@ -1,4 +1,5 @@
 import { useData } from "@/context/DataContext";
+import getAllowance from "@/utility functions/general/get-allowance";
 import calculateMinimumAmountReceived from "@/utility functions/general/get-minimum-amount";
 import calculateFee from "@/utility functions/miscellanous/fee-calculator";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
@@ -14,9 +15,11 @@ const SwapButton = memo(
     firstToken,
     secondToken,
     rtPrice,
+    setApproveInfo,
+    slippageInfo,
   }) => {
     const { firstTokenAmount, secondTokenAmount } = tokenAmount;
-    const { isConnected, providerState } = useData();
+    const { isConnected, providerState, appData } = useData();
     const prepareQuote = async () => {
       const payloadUnit = convertToWEI(1);
       setQuotePopup(true);
@@ -29,20 +32,45 @@ const SwapButton = memo(
 
       const roundedUnit = roundDown(dataUnit, 2);
       const feeOnSwap = roundDown(calculateFee(firstTokenAmount), 4);
-      console.log(feeOnSwap);
-      const slippage = 2;
-      const { minimumAmountReceived, roundedValue } =
-        calculateMinimumAmountReceived(
-          tokenAmount.firstTokenFullAmount || tokenAmount.secondTokenFullAmount,
-          slippage
+      if (tokenAmount.secondTokenFullAmount === null) {
+        setRtPrice({
+          ...rtPrice,
+          fee: feeOnSwap,
+          perOne: roundedUnit,
+          minimumRecieved: tokenAmount.secondTokenAmount,
+          minimumRecievedRound: tokenAmount.secondTokenAmount,
+        });
+      } else {
+        const { minimumAmountReceived, roundedValue } =
+          calculateMinimumAmountReceived(
+            tokenAmount.firstTokenFullAmount ||
+              tokenAmount.secondTokenFullAmount,
+            slippageInfo
+          );
+        setRtPrice({
+          ...rtPrice,
+          fee: feeOnSwap,
+          perOne: roundedUnit,
+          minimumRecieved: minimumAmountReceived,
+          minimumRecievedRound: roundedValue,
+        });
+      }
+      if (firstToken.addy !== "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9") {
+        const allowance = await getAllowance(
+          providerState,
+          firstToken.addy,
+          appData.walletAddress
         );
-      setRtPrice({
-        ...rtPrice,
-        fee: feeOnSwap,
-        perOne: roundedUnit,
-        minimumRecieved: minimumAmountReceived,
-        minimumRecievedRound: roundedValue,
-      });
+        console.log(allowance);
+        const amtToSwap = parseFloat(tokenAmount.firstTokenAmount);
+        console.log(amtToSwap);
+        if (allowance >= amtToSwap) {
+          console.log("hi");
+          setApproveInfo(true);
+        } else {
+          setApproveInfo(false);
+        }
+      }
     };
     if (isConnected !== true) {
       return (
