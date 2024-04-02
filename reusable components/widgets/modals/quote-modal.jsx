@@ -5,6 +5,7 @@ import { roundDown } from "@/utility functions/miscellanous/round-figures";
 import { memo, useState } from "react";
 import approveSpend from "@/utility functions/general/approve-token-spend";
 import { convertToWEI } from "@/utility functions/miscellanous/price-converter";
+import { ClipLoader } from "react-spinners";
 
 const QuoteModal = memo(
   ({
@@ -15,13 +16,27 @@ const QuoteModal = memo(
     tokenAmount,
     rtPrice,
     approveInfo,
+    setAppState,
+    appState,
   }) => {
     const { mode, signerState } = useData();
     const [approved, setApproval] = useState(false);
 
     const spend = async () => {
-      const amt = convertToWEI(tokenAmount.firstTokenAmount);
-      await approveSpend(signerState, firstToken.addy, amt);
+      let amt;
+      if (tokenAmount.firstTokenFullAmount !== null) {
+        amt = convertToWEI(tokenAmount.firstTokenFullAmount);
+      } else {
+        amt = convertToWEI(tokenAmount.firstTokenAmount);
+      }
+      await approveSpend(
+        signerState,
+        firstToken.addy,
+        amt,
+        setAppState,
+        appState,
+        setApproval
+      );
     };
     return (
       <ModalSkeleton
@@ -113,19 +128,36 @@ const QuoteModal = memo(
           </div>
           {firstToken.addy !== "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9" ? (
             <>
-              {approveInfo ? null : (
+              {!approveInfo ? null : (
                 <div className="">
                   <button
                     onClick={spend}
-                    className="tetiary-btn w-full py-[10px] rounded-[8px] tmdsbold font-generic"
+                    disabled={approved ? false : true}
+                    className="tetiary-btn w-full py-[10px] text-[#BDBDBD] items-center justify-center react-svg flex gap-[12px] rounded-[8px] tmdsbold font-generic"
                   >
-                    Approve token spend
+                    <p
+                      className={`${
+                        approveInfo || approved
+                          ? "text-[#BDBDBD]"
+                          : "text-[#333333]"
+                      }`}
+                    >
+                      Approve token spend
+                    </p>
+                    <ClipLoader
+                      loading={appState.isApprovedLoading}
+                      size={20}
+                      color="#BDBDBD"
+                    />
+                    {approveInfo || approved ? (
+                      <ReactSVG src="/images/modal/check.svg" />
+                    ) : null}
                   </button>
                 </div>
               )}
               <div className="mt-[16px]">
                 <button
-                  disabled
+                  disabled={approveInfo ? false : true}
                   className="w-full medium-btn tetiary-btn py-[10px] rounded-[8px] tmdsbold font-generic"
                 >
                   Swap

@@ -53,7 +53,9 @@ const Swap = () => {
   const [order, setOrder] = useState(null);
   const [approveInfo, setApproveInfo] = useState(false);
   const [slippageInfo, setSlippageInfo] = useState(0.1);
-  const [appState, setAppState] = useState();
+  const [appState, setAppState] = useState({
+    isApprovedLoading: false,
+  });
 
   useEffect(() => {
     const roundBalance = roundDown(balance.fullBalance, 2);
@@ -233,6 +235,8 @@ const Swap = () => {
         tokenAmount={tokenAmount}
         rtPrice={rtPrice}
         approveInfo={approveInfo}
+        setAppState={setAppState}
+        appState={appState}
       />
     </>
   );

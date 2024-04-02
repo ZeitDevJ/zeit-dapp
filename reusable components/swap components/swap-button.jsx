@@ -61,11 +61,11 @@ const SwapButton = memo(
           firstToken.addy,
           appData.walletAddress
         );
-        console.log(allowance);
-        const amtToSwap = parseFloat(tokenAmount.firstTokenAmount);
+        const amtToSwap = tokenAmount.firstTokenFullAmount
+          ? parseFloat(tokenAmount.firstTokenFullAmount)
+          : parseFloat(tokenAmount.firstTokenAmount);
         console.log(amtToSwap);
         if (allowance >= amtToSwap) {
-          console.log("hi");
           setApproveInfo(true);
         } else {
           setApproveInfo(false);
