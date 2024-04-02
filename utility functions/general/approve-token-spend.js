@@ -15,7 +15,6 @@ const approveSpend = async (
     ...appState,
     isApprovedLoading: true,
   });
-  console.log(amount);
   try {
     const Contract = new ethers.Contract(tokenAddress, E20ABI, signerState);
     const data = await Contract.approve(routerAddress, amount);
@@ -23,7 +22,7 @@ const approveSpend = async (
       toastInvoker("success", "Success", "Token approval success!");
       setAppState({
         ...appState,
-        isApprovedLoading: true,
+        isApprovedLoading: false,
       });
       setApproval(true);
     });

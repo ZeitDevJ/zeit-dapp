@@ -128,11 +128,11 @@ const QuoteModal = memo(
           </div>
           {firstToken.addy !== "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9" ? (
             <>
-              {!approveInfo ? null : (
+              {approveInfo ? null : (
                 <div className="">
                   <button
                     onClick={spend}
-                    disabled={approved ? false : true}
+                    disabled={approved === true ? true : false}
                     className="tetiary-btn w-full py-[10px] text-[#BDBDBD] items-center justify-center react-svg flex gap-[12px] rounded-[8px] tmdsbold font-generic"
                   >
                     <p
@@ -145,9 +145,9 @@ const QuoteModal = memo(
                       Approve token spend
                     </p>
                     <ClipLoader
-                      loading={appState.isApprovedLoading}
+                      loading={appState.isApprovedLoading ? true : false}
                       size={20}
-                      color="#BDBDBD"
+                      color="#333333"
                     />
                     {approveInfo || approved ? (
                       <ReactSVG src="/images/modal/check.svg" />
@@ -157,7 +157,7 @@ const QuoteModal = memo(
               )}
               <div className="mt-[16px]">
                 <button
-                  disabled={approveInfo ? false : true}
+                  disabled={approveInfo || approved ? false : true}
                   className="w-full medium-btn tetiary-btn py-[10px] rounded-[8px] tmdsbold font-generic"
                 >
                   Swap
